@@ -52,4 +52,8 @@ group :development do
   gem 'pry-rails'
 end
 
+#For whatever reason, thread-safe 0.3.0 wasn't working for heroku
 gem 'thread_safe', '0.2.0'
+gem 'backbone-on-rails'
+gem 'ejs'
+

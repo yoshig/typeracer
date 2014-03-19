@@ -9,6 +9,11 @@ class HeatsController < ApplicationController
   def create
   end
 
+  def index
+    @heats = Heat.all
+    render json: @heats
+  end
+
   def show
     @heat = Heat.find(params[:id])
   end
