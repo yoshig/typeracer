@@ -52,4 +52,3 @@ end
 
 gem 'annotate'
 gem 'pry-rails'
-gem 'pusher'
