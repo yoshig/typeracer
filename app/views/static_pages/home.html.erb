@@ -1,0 +1,29 @@
+<div class="title">Code Sprint</div>
+
+GRAPHICS!
+
+<% if (signed_in?) %>
+
+  <h1 id="welcome-title"> Welcome, <%= current_user.username %>!</h1>
+
+	<div class="user-show"><%= link_to "See Your Stats", user_url(current_user) %></div>
+
+	<div class="race"><%= link_to "Practice", new_heat_url(num_racers: 1) %></div>
+
+<% else %>
+
+	<h1 id="sign_in">Sign In</h1>
+
+	<%= render "shared/login", user: User.new, url: session_url %>
+
+	or
+
+	<h1 id="sign_up">Sign Up</h1>
+
+	<%= render "shared/login", user: User.new, url: users_url %>
+
+
+	<button>Sign In As Guest</button>
+
+
+<% end %>

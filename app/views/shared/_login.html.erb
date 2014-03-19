@@ -1,6 +1,5 @@
 <form action="<%= url %>" method="post" >
-
-  <%= form_auth %>
+  <input type="hidden" name="authenticity_token" type="<%= form_authenticity_token %>">
   <br>
 
   <label for="username">Username</label>
