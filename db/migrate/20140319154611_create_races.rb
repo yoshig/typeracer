@@ -15,6 +15,8 @@ class CreateRaces < ActiveRecord::Migration
     create_table :racer_stats do |t|
       t.integer :heat_id
       t.integer :user_id
+      t.float :wpm
+      t.float :wpm_percentile
 
       t.timestamps
     end

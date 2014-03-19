@@ -10,4 +10,5 @@
 
 class Race < ActiveRecord::Base
   has_many :heats
+  has_many :racer_stats, through: :heats
 end
