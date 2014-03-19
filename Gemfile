@@ -51,3 +51,5 @@ group :development do
   gem 'annotate'
   gem 'pry-rails'
 end
+
+gem 'thread_safe', '0.2.0'
