@@ -48,7 +48,6 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'rspec-rails'
+  gem 'annotate'
+  gem 'pry-rails'
 end
-
-gem 'annotate'
-gem 'pry-rails'
