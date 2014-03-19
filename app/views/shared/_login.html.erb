@@ -1,0 +1,14 @@
+<form action="<%= url %>" method="post" >
+
+  <%= form_auth %>
+  <br>
+
+  <label for="username">Username</label>
+  <input type="text" name="user[username]" value="<%= user.username %>" id="username">
+  <br>
+
+  <label for="password">Password</label>
+  <input type="password" name="user[password]" value="" id="password">
+
+  <p><input type="submit" value="Continue &rarr;"></p>
+</form>
