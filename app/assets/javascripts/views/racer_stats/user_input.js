@@ -38,7 +38,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	handleWordEnd: function(input) {
 		this.counter++;
 		this.model.progress = this.counter / this.words.length;
-		this.model.get("username")
+		this.model.set("progress", this.model.progress)
 		input.val("");
 		if (this.counter == this.words.length) {
 			this.endGame(this.timer);
@@ -81,7 +81,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 			$("div#game-timer").html(timeDisplay)
 
 			if (that.timer <= 0) {
-				clearInterval(this.gameCountDown);
+				clearInterval(that.gameCountDown);
 				that.outOfTime();
 				that.endGame(NaN);
 			}
