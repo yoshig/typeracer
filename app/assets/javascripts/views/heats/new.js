@@ -1,23 +1,48 @@
-window.TypeRacer.Views.NewHeat = Backbone.View.extend({
-	initialize: function() {
-		this.counter = 0;
-		this.words = this.model.get("text").split(" ");
-		this.startTimer()
-		// Wait until all players are in the room before starting the timer and allowing typing in box
-	},
-
+window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	template: JST["heats/new"],
+
+	initialize: function() {
+		this.words = this.model.get("text").split(" ");
+		this.addBoard();
+		this.gameSetup();
+		// this.raceTrack;
+
+		// this.listenTo(this.model.racerStats(), "add", this.raceTrack.render)
+	},
 
 	className: "race-board",
 
 	render: function() {
-		var content = this.template({ words: this.words, heat: this.model })
+		debugger
+		var content = this.template()
 		this.$el.html(content)
+
+		this.renderSubviews();
+
 		return this;
 	},
 
-	events: {
-		"keyup.val .user-input": "handleInput"
+	addBoard: function() {
+		var newRacerStat = this.model.racerStats().add(
+			new TypeRacer.Models.RacerStat({
+						user_id: $("#current_user").data("id"),
+						user_name: $("#current_user").data("name"),
+					})
+		)
+		debugger
+		var newBoardView = new TypeRacer.Views.BoardNew({
+			model: newRacerStat
+		});
+
+		this.addSubview("#game-board", newBoardView);
+		newBoardView.render();
+	},
+
+	addTrackView: function() {
+		this.raceTrack = new TypeRacer.Views.Track({
+			collection: this.model.racerStats()
+		});
+		this.addSubview("#race-track", this.raceTrack);
 	},
 
 	endGame: function() {
@@ -66,9 +91,10 @@ window.TypeRacer.Views.NewHeat = Backbone.View.extend({
 			timer--
 			var mins = Math.floor(timer / 600);
 			var secs = Math.floor((timer - (mins * 600)) / 10)
+			secs = secs < 10 ? "0" + secs : secs
 			var decs = Math.ceil(timer - (mins * 600) - (secs * 10))
 			var timeDisplay
-			mins < 1 ? timeDisplay = secs + ":" + decs : timeDisplay = mins + ":" + secs
+			timeDisplay = mins < 1 ? secs + ":" + decs : mins + ":" + secs
 			$("div#game-timer").html(timeDisplay)
 
 			if (timer <= 0) {
@@ -82,9 +108,10 @@ window.TypeRacer.Views.NewHeat = Backbone.View.extend({
 		console.log("YOU LOSE")
 	},
 
-	startTimer: function() {
+	gameSetup: function() {
+				// Wait until all players are in the room before starting the timer and allowing typing in box
 		var that = this;
-		var countStart = 1;
+		var countStart = 10;
 		var startCountDown = setInterval(function() {
 			countStart--;
 			$("div#count-down").html(countStart)

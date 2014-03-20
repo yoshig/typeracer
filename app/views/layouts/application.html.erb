@@ -8,9 +8,12 @@
 </head>
 <body>
 	<% if signed_in? %>
+
+		<div id="current_user" data-name="<%= current_user.username %>" data-id="<%= current_user.id %>">
 	  <%= current_user.username %>
 	  <%= button_to "Log out", session_url, method: :delete %>
 	<% else %>
+	<div id="current_user_id" data-id="0">
 	<%= link_to "Sign in", new_session_url %>
 	or
 	<%= link_to "Sign up", new_user_url %>
@@ -22,7 +25,7 @@
 		<% end %>
 	<% end %>
 
-<burtton><a href="#heats/new">Start a new game</a></button>
+<a href="#heats/new">Start a new game</a>
 
 <div id="content">
 	<%= yield %>
