@@ -5,19 +5,28 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	routes: {
-
+		"heats/new": "heatNew"
 	},
 
 	heatNew: function() {
-		var newHeatView = new TypeRacer.Views.NewHeat({
-			model: new TypeRacer.Models.Heat()
+		var that = this;
+		var newHeat;
+		$.ajax({
+			url: "/heats/new",
+			type: "GET",
+			success: function(data) {
+				newHeat = new TypeRacer.Models.Heat(data);
+				var newHeatView = new TypeRacer.Views.NewHeat({
+					model: newHeat
+				})
+				that._swapView(newHeatView);
+			}
 		})
-		this._swapView(newHeatView)
 	},
 
 	_swapView: function(view) {
 		this.currentView && this.currentView.remove();
 		this.currentView = view;
-		$rootEl.append(view.render().$el);
+		this.$rootEl.html(view.render().$el);
 	}
 })

@@ -1,9 +1,9 @@
 class HeatsController < ApplicationController
 
   def new
-    @race = Race.all.sample
-    @heat = Heat.new(race_id: @race.id)
-    @racers = params[:num_racers]
+    race = Race.all.sample
+    numRacers = params[:num_racers] || 1
+    render json: { num_racers: numRacers, race_id: race.id, text: race.passage }
   end
 
   def create
