@@ -1,3 +1,5 @@
+<button class="start-new-game">Race Again?</button>
+
 DEM SCORES DOH
 <header class="highscore-header">
 <span class="race-all-time-scores">Fastest Typists</span>
@@ -6,11 +8,11 @@ DEM SCORES DOH
 
 <table class="show-scores">
 	<tr>
-		<th>Speed</th><th>User</th>
+		<th>User</th><th>Speed</th>
 	</tr>
 	<% list.forEach(function(score) { %>
 		<tr>
-		<td><%= score.wpm %> wpm</td><td><%- score.username %></td>
+		<td><%- score.username %></td><td><%= score.wpm %> wpm</td>
 		</th>
 	<% }) %>
 </table>

@@ -5,7 +5,14 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	routes: {
-		"heats/new": "heatNew"
+		"heats/new": "heatNew",
+		"heats/gameover": "heatDone"
+	},
+
+	heatDone: function() {
+		// Cannot navigate to page where you are already.
+		// Used to navigate away and back to a new game.
+		Backbone.history.navigate("#heats/new", { trigger: true } )
 	},
 
 	heatNew: function() {
@@ -25,20 +32,22 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	_bestScoresView: function() {
+		var that = this;
 		var userScores = new TypeRacer.Collections.Users()
-		userScores.fetch()
-
-		var everyPageScores = new TypeRacer.Views.UsersIndex ({
-			collection: userScores
+		userScores.fetch({
+			success: function() {
+				var everyPageScores = new TypeRacer.Views.UsersIndex ({
+					collection: userScores
+				});
+				that.$rootEl.append(everyPageScores.showSpeedRecords().$el)
+			}
 		});
-		return everyPageScores;
 	},
 
 	_swapView: function(view) {
 		this.currentView && this.currentView.remove();
 		this.currentView = view;
 		this.$rootEl.html(view.render().$el);
-		debugger
-		this.$rootEl.append(this._bestScoresView().showRecentRecords().$el)
+		this._bestScoresView();
 	}
 })

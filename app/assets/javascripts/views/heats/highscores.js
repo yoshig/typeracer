@@ -1,4 +1,4 @@
-window.TypeRacer.Views.HighScores = Backbone.CompositeView.extend({
+window.TypeRacer.Views.HeatHighScores = Backbone.CompositeView.extend({
 	template: JST["heats/highscores"],
 
 	initialize: function(options) {

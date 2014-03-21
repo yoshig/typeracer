@@ -1,10 +1,21 @@
 window.TypeRacer.Views.UsersIndex = Backbone.View.extend({
 	template: JST["users/index"],
+	allTimeTemplate: JST["users/all_time"],
+	recentLeaderTemplate: JST["users/recent_leaders"],
+	mostRacesTemplate: JST["users/most_races"],
 
-	render: function(content) {
-		var content = this.template({ list: content })
-		this.$el.html(content)
-		debugger
+	render: function(list, category) {
+		var content = this.template({
+			list: list,
+			category: category
+		})
+		this.$el.html(content);
+		return this;
+	},
+
+	showList: function(content) {
+		this.$el.find(".all-pages-show-scores")
+		        .html(content);
 		return this;
 	},
 
@@ -15,25 +26,23 @@ window.TypeRacer.Views.UsersIndex = Backbone.View.extend({
 	},
 
 	showSpeedRecords: function() {
-		var content = _.sortBy(this.racer_stats, function(stat) {
-			return stat.wpm;
-		}).reverse().slice(0,10);
-		this.render(content);
-		return this;
+		return this.sortScores("wpm_avg");
 	},
 
 	showRecentRecords: function() {
-
+    return this.sortScores("recent_wpm_avg");
 	},
 
 	showMostRaces: function() {
-
+		return this.sortScores("races");
 	},
 
-	sortScores: function(scores) {
-		return _.sortBy(scores, function(stat) {
-					return stat.wpm
-				}).reverse().slice(0,10);
+	sortScores: function(stat) {
+		var content = this.collection.sortBy(function(user) {
+			return user.get(stat)
+		}).reverse()
+		this.render(content, stat)
+		return this;
 	}
 });
 

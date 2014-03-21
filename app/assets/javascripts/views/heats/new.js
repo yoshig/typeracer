@@ -21,7 +21,7 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	},
 
 	events: {
-		"trigger showScores": "showScores:"
+		"click .start-new-game": "startNewGame"
 	},
 
 	addBoard: function() {
@@ -52,12 +52,27 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 
 		race.fetch({
 			success: function() {
-				var highScoresView = new TypeRacer.Views.HighScores({
+				var highScoresView = new TypeRacer.Views.HeatHighScores({
 					racerStats: race.get("racerStats"),
 					model: race
 				})
 				that.$el.append(highScoresView.showAllTimeHighs().$el)
 			}
 		})
+	},
+
+	startNewGame: function() {
+		console.log("startNew")
+		Backbone.history.navigate("#heats/gameover", { trigger: true } )
 	}
 })
+
+
+
+
+
+
+
+
+
+

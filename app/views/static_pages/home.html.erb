@@ -8,7 +8,7 @@ GRAPHICS!
 
 	<div class="user-show"><%= link_to "See Your Stats", user_url(current_user) %></div>
 
-	<div class="race"><%= link_to "Practice", new_heat_url(num_racers: 1) %></div>
+	<div class="race"><a href="#heats/new">Practice</a></div>
 
 <% else %>
 
@@ -24,6 +24,5 @@ GRAPHICS!
 
 
 	<button>Sign In As Guest</button>
-
 
 <% end %>
