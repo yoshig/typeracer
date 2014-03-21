@@ -4,12 +4,14 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	className: "race-board",
 
 	initialize: function(options) {
-		this.gameSetup();
+
 		this.counter = 0;
+		this.totalKeys = 0;
 		// timer is based on typing 30 wpm, if a word is average 5 letters, using deciseconds
 		this.words = this.model.collection.heat.get("text").split(" ");
 		this.totalTime = Math.floor(this.words.join().length * (2 / 5) * 10)
 		// Wait until all players are in the room before starting the timer and allowing typing in box
+		this.gameSetup();
 	},
 
 	render: function() {
@@ -23,15 +25,19 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	},
 
 	handleInput: function(event) {
-		var input = $(event.target);
-		var userWord = input.val();
+		var $input = $(event.target);
+		var key = String.fromCharCode(event.keyCode);
+		if (/[a-zA-Z0-9-_]/.test(key)) {
+			this.totalKeys++
+		}
+		var userWord = $input.val();
 		var currentWord = this.words[this.counter] + " ";
-		if (currentWord === input.val()) {
-			this.handleWordEnd(input);
-		} else if ( currentWord.match("^" + input.val()) ) {
-			input.css("background", "white")
+		if (currentWord === $input.val()) {
+			this.handleWordEnd($input);
+		} else if ( currentWord.match("^" + $input.val()) ) {
+			$input.css("background", "white")
 		} else {
-			input.css("background", "red")
+			$input.css("background", "red")
 		}
 	},
 
@@ -59,11 +65,22 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		if (time) {
 			clearInterval(this.gameCountDown);
 			var minutes = (this.totalTime - this.timer) / 600
-			var wordCount = (this.words.join("").length / 5);
-			var wpm = wordCount / minutes;
+			var letters = this.words.join("").length;
+			var wpm = (letters / 5) / minutes;
+			var correctness = Math.round((letters / this.totalKeys) * 1000) / 10;
+			debugger
+			this.model.save({
+				wpm: wpm,
+				wpm_percentile: correctness,
+				heat_time: this.model.collection.heat.get("start_time"),
+				race_id: this.model.collection.heat.get("race_id")
+			}, { silent: true })
 			console.log(wpm + " WPM");
+			console.log(correctness + "% correct")
+
 		} else {
 			console.log("You didn't finish in time")
+			this.model.destroy();
 		}
 	},
 
@@ -82,6 +99,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 
 			if (that.timer <= 0) {
 				clearInterval(that.gameCountDown);
+				$("div#game-timer").html("00:0")
 				that.outOfTime();
 				that.endGame(NaN);
 			}

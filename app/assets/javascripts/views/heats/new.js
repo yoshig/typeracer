@@ -22,7 +22,7 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 		var newRacerStat = this.model.racerStats().add(
 			new TypeRacer.Models.RacerStat({
 						user_id: $("#current_user").data("id"),
-						user_name: $("#current_user").data("name"),
+						user_name: $("#current_user").data("name")
 					})
 		)
 		var newBoardView = new TypeRacer.Views.BoardNew({

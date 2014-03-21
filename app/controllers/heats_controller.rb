@@ -4,7 +4,7 @@ class HeatsController < ApplicationController
     race = Race.all.sample
     numRacers = params[:num_racers] || 1
     # Normally, use race.passage for the text
-    render json: { num_racers: numRacers, race_id: race.id, text: "This is a test" }
+    render json: { start_time: Time.now.to_s, num_racers: numRacers, race_id: race.id, text: "This is a test" }
   end
 
   def create
