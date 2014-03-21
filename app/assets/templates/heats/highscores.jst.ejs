@@ -1,1 +1,16 @@
 DEM SCORES DOH
+<header class="highscore-header">
+<span class="race-all-time-scores">Fastest Typists</span>
+<span class="race-personal-scores">My Scores</span>
+</header>
+
+<table class="show-scores">
+	<tr>
+		<th>Speed</th><th>User</th>
+	</tr>
+	<% list.forEach(function(score) { %>
+		<tr>
+		<td><%= score.wpm %> wpm</td><td><%- score.username %></td>
+		</th>
+	<% }) %>
+</table>

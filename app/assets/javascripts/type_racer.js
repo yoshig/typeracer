@@ -10,7 +10,7 @@ window.TypeRacer = {
 				new TypeRacer.Routers.AppRouter({
 					$rootEl: $("#content"),
 					heats: TypeRacer.Heats
-				})
+				});
 				Backbone.history.start();
 			}
 		})

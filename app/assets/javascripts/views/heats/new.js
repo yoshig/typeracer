@@ -47,9 +47,17 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	},
 
 	showScores: function(model, race_id) {
-		debugger
+		var that = this;
 		var race = new TypeRacer.Models.Race({ id: race_id })
-		race.fetch()
-		race.racer_stats().fetch();
+
+		race.fetch({
+			success: function() {
+				var highScoresView = new TypeRacer.Views.HighScores({
+					racerStats: race.get("racerStats"),
+					model: race
+				})
+				that.$el.append(highScoresView.showAllTimeHighs().$el)
+			}
+		})
 	}
 })

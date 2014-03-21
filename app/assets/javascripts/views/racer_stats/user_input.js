@@ -65,8 +65,8 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		clearInterval(this.gameCountDown);
 		var minutes = (this.totalTime - this.timer) / 600
 		var letters = this.words.join("").length;
-		var wpm = (letters / 5) / minutes;
-		var correctness = Math.round((letters / this.totalKeys) * 1000) / 10;
+		var wpm = ((letters / 5) / minutes).toFixed(2);
+		var correctness = ((letters/this.totalKeys) * 100).toFixed(2);
 		var attrs = {
 			wpm: wpm,
 			wpm_percentile: correctness,
@@ -82,7 +82,6 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 			console.log("You didn't finish in time")
 			this.model.set(attrs, { silent: true })
 		}
-		debugger
 		this.parent.showScores(attrs, this.model.get("race_id"));
 	},
 

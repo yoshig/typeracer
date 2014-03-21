@@ -24,9 +24,21 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 		})
 	},
 
+	_bestScoresView: function() {
+		var userScores = new TypeRacer.Collections.Users()
+		userScores.fetch()
+
+		var everyPageScores = new TypeRacer.Views.UsersIndex ({
+			collection: userScores
+		});
+		return everyPageScores;
+	},
+
 	_swapView: function(view) {
 		this.currentView && this.currentView.remove();
 		this.currentView = view;
 		this.$rootEl.html(view.render().$el);
+		debugger
+		this.$rootEl.append(this._bestScoresView().showRecentRecords().$el)
 	}
 })
