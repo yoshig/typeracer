@@ -15,9 +15,6 @@ class RacerStatsController < ApplicationController
     @recent_leaders = RacerStat.where("created_at > ?", 1.day.ago).order('wpm DESC').limit(10)
   end
 
-  def show
-  end
-
   private
 
   def racerstat_params

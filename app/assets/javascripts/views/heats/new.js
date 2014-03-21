@@ -1,6 +1,10 @@
 window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	template: JST["heats/new"],
 
+	scoresTemplate: JST["heats/scores"],
+
+	className: "race-board",
+
 	initialize: function() {
 		this.words = this.model.get("text").split(" ");
 		this.addBoard();
@@ -9,13 +13,15 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 									this.addTrackView(this.model.racerStats().last()))
 	},
 
-	className: "race-board",
-
 	render: function() {
 		var content = this.template()
 		this.$el.html(content)
 		this.renderSubviews();
 		return this;
+	},
+
+	events: {
+		"trigger showScores": "showScores:"
 	},
 
 	addBoard: function() {
@@ -26,9 +32,9 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 					})
 		)
 		var newBoardView = new TypeRacer.Views.BoardNew({
-			model: newRacerStat
+			model: newRacerStat,
+			parent: this
 		});
-
 		this.addSubview("#game-board", newBoardView);
 		newBoardView.render();
 	},
@@ -38,5 +44,12 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 			model: track
 		});
 		this.addSubview("#race-track", this.raceTrack);
+	},
+
+	showScores: function(model, race_id) {
+		debugger
+		var race = new TypeRacer.Models.Race({ id: race_id })
+		race.fetch()
+		race.racer_stats().fetch();
 	}
 })

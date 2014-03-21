@@ -4,4 +4,5 @@ TypeRacer::Application.routes.draw do
   resource :session, only: [:create, :new, :destroy]
   resources :heats, only: [:show, :new, :index]
   resources :racer_stats, only: [:index, :create]
+  resources :races, only: [:show]
 end
