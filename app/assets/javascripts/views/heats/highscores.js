@@ -27,7 +27,6 @@ window.TypeRacer.Views.HeatHighScores = Backbone.CompositeView.extend({
 		var userScores = _.filter(this.racerStats, function(stat) {
 			return stat.userId == userId
 		});
-		debugger
 
 		var content = this.sortScores(userScores)
 		this.render(content);

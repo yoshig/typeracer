@@ -1,18 +1,21 @@
 class RacerStatsController < ApplicationController
   def create
-    heat = create_or_find_heat
-    stat = heat.racer_stats.build(racerstat_params)
-    if heat.save
-      render json: stat
+    if params[:user_id].length <= 16
+      stat = racerstat_params
+      (session[:races] ||= []) << racerstat_params;
     else
-      puts "SOMETHING WENT WRONG"
-      render json: stat.errors.full_messages
+      heat = create_or_find_heat
+      stat = heat.racer_stats.build(racerstat_params)
+      heat.save
     end
+
+    render json: stat
   end
 
   def index
     @all_time_leaders = RacerStat.order('wpm DESC').limit(10)
-    @recent_leaders = RacerStat.where("created_at > ?", 1.day.ago).order('wpm DESC').limit(10)
+    @recent_leaders = RacerStat.where("created_at > ?", 1.day.ago)
+                               .order('wpm DESC').limit(10)
   end
 
   private
@@ -25,7 +28,6 @@ class RacerStatsController < ApplicationController
 
   def create_or_find_heat
     @heat = Heat.find_by(created_at: params[:racer_stat][:heat_time]) ||
-    Heat.create(race_id: params[:race_id],
-                created_at: params[:heat_time])
+    Heat.create(race_id: params[:race_id], created_at: params[:heat_time])
   end
 end

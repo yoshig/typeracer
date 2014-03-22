@@ -76,5 +76,3 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 
 
 
-
-

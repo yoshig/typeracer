@@ -7,12 +7,17 @@ DEM SCORES DOH
 </header>
 
 <table class="show-scores">
-	<tr>
-		<th>User</th><th>Speed</th>
-	</tr>
-	<% list.forEach(function(score) { %>
+	<% if (list.length !== 0) { %>
 		<tr>
-		<td><%- score.username %></td><td><%= score.wpm %> wpm</td>
-		</th>
-	<% }) %>
+			<th>User</th><th>Speed</th>
+		</tr>
+		<% list.forEach(function(score) { %>
+			<tr>
+			<td><%- score.username %></td><td><%= score.wpm %> wpm</td>
+			</th>
+		<% }) %>
+	<% } else { %>
+		You have to race more and be signed in to see your top scores!
+	<% } %>
+
 </table>

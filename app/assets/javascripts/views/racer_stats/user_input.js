@@ -113,7 +113,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	},
 
 	gameSetup: function() {
-				// Wait until all players are in the room before starting the timer and allowing typing in box
+		// Wait until all players are in the room before starting the timer and allowing typing in box
 		var that = this;
 		var countStart = 4;
 		var startCountDown = setInterval(function() {
