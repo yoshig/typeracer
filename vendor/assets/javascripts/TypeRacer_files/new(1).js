@@ -48,9 +48,7 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 
 	showScores: function(model, race_id) {
 		var that = this;
-		var race = new TypeRacer.Models.Race({
-			id: race_id
-		})
+		var race = new TypeRacer.Models.Race({ id: race_id })
 
 		race.fetch({
 			success: function() {
@@ -78,3 +76,4 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 
 
 
+;

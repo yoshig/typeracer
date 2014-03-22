@@ -88,7 +88,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 
 	runTimer: function() {
 		var that = this;
-		this.timer = 5000//this.totalTime;
+		this.timer = this.totalTime;
 		this.gameCountDown = setInterval(function() {
 			that.timer--
 			var mins = Math.floor(that.timer / 600);
@@ -115,7 +115,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	gameSetup: function() {
 				// Wait until all players are in the room before starting the timer and allowing typing in box
 		var that = this;
-		var countStart = 4;
+		var countStart = 500;
 		var startCountDown = setInterval(function() {
 			countStart--;
 			$("div#count-down").html(countStart)
@@ -133,9 +133,20 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 			url: "/heats/update_board",
 			type: "POST",
 			data: {
-				racer_id: this.model.get("user_id"),
+				racer_id: this.model.cid,
 				progress: progress
 			}
 		})
 	}
-});
+})
+
+
+
+
+
+
+
+
+
+
+;

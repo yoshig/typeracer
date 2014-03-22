@@ -4,7 +4,8 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 	tagName: "table",
 
 	initialize: function() {
-		var that = this
+		var that = this;
+		this.racer_id = $("#current_user").data("id")
 		// this.listenTo(this.model, "change", this.moveCar)
 		var pusher = new Pusher('3ee21fe7259f11d2384c');
     var channel = pusher.subscribe('test_channel');
@@ -15,54 +16,44 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		channel.bind('addCar', function(data) {
 			return that.addCar(data)
 		});
-		this.enterGame();
+		this.sendCarData(false);
 	},
 
-	// render: function() {
-	// 	var content = this.template({ racer: this.model })
-	// 	this.$el.html(content);
-	// 			// move when doing css
-	// 			//
-	// 	return this;
-	// },
-
 	addCar: function(data) {
-		debugger
-		var new_racer = {
-			racer_name: data.racer_name,
-			racer_id: data.racer_id,
-			progress: 0
-		};
 		var content = this.template({
-			racer: new_racer
-		})
-		(this.model.cid == data.racer_id)
-			?  this.$el.prepend(content)
-			: this.$el.append(content);
+			racer: data
+		});
+		if (this.findCar(data.racer_id).length == 0) {
+			this.sendCarData(data.racer_id);
+			(this.racer_id == data.racer_id)
+				?  this.$el.prepend(content)
+				: this.$el.append(content);
+		}
+	},
+
+	findCar: function(id) {
+		return $("[data-racer-id='"+ id + "']")
 	},
 
 	moveCar: function(data) {
-		var $car = $("[data-racer-id='"+ data.racer_id + "']");
+		var $car = this.findCar(data.racer_id);
 		$car.css("position", "absolute");
 		var movement = data.progress;
 		$car.css("left", movement * 100 + "px");
 	},
 
-	enterGame: function() {
+	sendCarData: function(returnTo) {
 		var that = this;
-		var progress = this.model.get("progress");
+		var racer_name = this.model.get("user_name") || "Guest"
+		var racer = {
+					racer_id: this.racer_id,
+					racer_name: racer_name,
+					return_to: returnTo
+			  }
 		$.ajax({
 			url: "/heats/add_car",
 			type: "POST",
-			data: {
-				racer_id: this.model.cid,
-				racer_name: this.model.get("user_name"),
-				progress: 0
-			},
-			success:
-				function(data) {
-					that.addCar(data);
-				}
+			data: racer
 		})
 	}
 })

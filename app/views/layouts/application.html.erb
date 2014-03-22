@@ -13,10 +13,10 @@
 	  <%= current_user.username %>
 	  <%= button_to "Log out", session_url, method: :delete %>
 	<% else %>
-	<div id="current_user_id" data-id="0">
-	<%= link_to "Sign in", new_session_url %>
-	or
-	<%= link_to "Sign up", new_user_url %>
+		<div id="current_user" data-id=<%= session[:token] ||= SecureRandom.base64 %>>
+		<%= link_to "Sign in", new_session_url %>
+		or
+		<%= link_to "Sign up", new_user_url %>
 	<% end%>
 
 	<% if flash.now[:errors] %>

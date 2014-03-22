@@ -14,8 +14,8 @@ DA USER SCORES!
 	</tr>
 	<% list.forEach(function(score) { %>
 		<tr>
-		<td><%- score.escape(category) %></td>
-		<td><%= score.escape("username") %> wpm</td>
+		<td><%= score.escape("username") %></td>
+		<td><%- score.escape(category) %> wpm</td>
 		</th>
 	<% }) %>
 </table>

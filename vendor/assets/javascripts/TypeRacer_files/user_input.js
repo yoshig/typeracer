@@ -1,0 +1,2 @@
+(function() { this.JST || (this.JST = {}); this.JST["racer_stats/user_input"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div id="game-text" class="unselectable">\n\t<span id="current-word">',  words[0] + " " ,'</span>',  words.slice(1).join(" ") ,'\n</div>\n\n<form>\n\t<input type="text" value="" class="user-input">\n</form>\n');}return __p.join('');};
+}).call(this);

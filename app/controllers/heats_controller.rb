@@ -1,9 +1,6 @@
 class HeatsController < ApplicationController
   def add_car
-    Pusher["test_channel"].trigger('addCar', {
-      racer_id: params[:racer_id],
-      racer_name: params[:racer_name]
-      })
+    Pusher["test_channel"].trigger('addCar', car_params)
     head :ok
   end
 
@@ -21,27 +18,21 @@ class HeatsController < ApplicationController
     render json: { start_time: Time.now.to_s, num_racers: numRacers, race_id: race.id, text: "This is a test" }
   end
 
-  def send_back_data
-    Pusher["test_channel"].trigger('receivePlayerInfo', {
-      racer_id: params[:racer_id]
-    })
-    head :ok
-  end
-
   def show
     @heat = Heat.find(params[:id])
   end
 
   def update_board
-    Pusher["test_channel"].trigger('updateBoard', {
-      racer_id: params[:racer_id],
-      progress: params[:progress]
-    })
+    Pusher["test_channel"].trigger('updateBoard', car_params)
     head :ok
   end
 
   private
   def heat_params
     params.require(:heat).permit(:race_id)
+  end
+
+  def car_params
+    params.permit(:racer_id, :racer_name, :return_to, :progress)
   end
 end
