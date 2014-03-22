@@ -128,7 +128,6 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	},
 
 	updateBoards: function() {
-		var userId = this.model.get("user_id");
 		var progress = this.model.get("progress");
 		$.ajax({
 			url: "/heats/update_board",

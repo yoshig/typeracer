@@ -1,4 +1,16 @@
 class HeatsController < ApplicationController
+  def add_car
+    Pusher["test_channel"].trigger('addCar', {
+      racer_id: params[:racer_id],
+      racer_name: params[:racer_name]
+      })
+    head :ok
+  end
+
+  def index
+    @heats = Heat.all
+    render json: @heats
+  end
 
   def new
     # This will never actually be saved to the database
@@ -9,25 +21,26 @@ class HeatsController < ApplicationController
     render json: { start_time: Time.now.to_s, num_racers: numRacers, race_id: race.id, text: "This is a test" }
   end
 
-  def update_board
-    Pusher["test_channel"].trigger('updateBoard', {
-      racer_id: params[:racer_id],
-      progress: params[:progress]
+  def send_back_data
+    Pusher["test_channel"].trigger('receivePlayerInfo', {
+      racer_id: params[:racer_id]
     })
-    render json: ""
-  end
-
-  def index
-    @heats = Heat.all
-    render json: @heats
+    head :ok
   end
 
   def show
     @heat = Heat.find(params[:id])
   end
 
-  private
+  def update_board
+    Pusher["test_channel"].trigger('updateBoard', {
+      racer_id: params[:racer_id],
+      progress: params[:progress]
+    })
+    head :ok
+  end
 
+  private
   def heat_params
     params.require(:heat).permit(:race_id)
   end
