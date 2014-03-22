@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
   end
 
   def wpm_avg
+    return 0 if self.racer_stats.length == 0
     (self.racer_stats.inject(0) do |sum, stat|
       sum + stat.wpm
     end / racer_stats.length).round(0)

@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require underscore
 //= require backbone
+//= require pusher
 //= require type_racer
 //= require_tree ../templates
 //= require_tree ./models

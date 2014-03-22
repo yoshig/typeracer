@@ -1,5 +1,5 @@
 DA GAMEBOARD
-<tr class="racer" data-id="<%= racer.user_id %>">
+<tr class="racer" data-racer-id="<%= racer.cid %>" data-id="<%= racer.user_id %>">
 	<td class="racer_name"><%= racer.escape("user_id") %></td>
 	<td clas="racer_car"><%= racer.escape("progress") || 0 %></td>
 </tr>

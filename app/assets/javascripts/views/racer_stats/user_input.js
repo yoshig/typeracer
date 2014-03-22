@@ -46,6 +46,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		this.model.progress = this.counter / this.words.length;
 		this.model.set("progress", this.model.progress)
 		input.val("");
+		this.updateBoards();
 		if (this.counter == this.words.length) {
 			this.endGame(this.timer);
 		} else {
@@ -114,7 +115,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	gameSetup: function() {
 				// Wait until all players are in the room before starting the timer and allowing typing in box
 		var that = this;
-		var countStart = 5;
+		var countStart = 500;
 		var startCountDown = setInterval(function() {
 			countStart--;
 			$("div#count-down").html(countStart)
@@ -124,5 +125,28 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 				$("div#count-down").remove();
 			}
 		}, 1000);
+	},
+
+	updateBoards: function() {
+		var userId = this.model.get("user_id");
+		var progress = this.model.get("progress");
+		$.ajax({
+			url: "/heats/update_board",
+			type: "POST",
+			data: {
+				user_id: this.model.cid,
+				progress: progress
+			}
+		})
 	}
 })
+
+
+
+
+
+
+
+
+
+
