@@ -11,7 +11,7 @@ class HeatsController < ApplicationController
 
   def update_board
     Pusher["test_channel"].trigger('updateBoard', {
-      cid: params[:user_id],
+      racer_id: params[:racer_id],
       progress: params[:progress]
     })
     render json: ""

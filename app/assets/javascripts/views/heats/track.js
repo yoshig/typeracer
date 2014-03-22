@@ -20,7 +20,7 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 
 	moveCar: function(data) {
 		debugger
-		$("[data-cid='"+ cidVal + "']")
+		$("[data-racer-id='"+ data.racer_id + "']")
 		var $playerPiece = this.$el.find(".racer")
 		$playerPiece.css("position", "absolute");
 		var movement = this.model.get("progress") * 100

@@ -134,7 +134,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 			url: "/heats/update_board",
 			type: "POST",
 			data: {
-				user_id: this.model.cid,
+				racer_id: this.model.cid,
 				progress: progress
 			}
 		})
