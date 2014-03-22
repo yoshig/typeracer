@@ -4,14 +4,19 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	className: "race-board",
 
 	initialize: function(options) {
+		var that = this;
+		var channel = options.channel;
+		// Wait until all players are in the room before starting the timer and allowing typing in box
+    channel.bind('initiateCountDown', function(data) {
+			return that.gameSetup()
+		});
+
 		this.parent = options.parent;
 		this.counter = 0;
 		this.totalKeys = 0;
 		// timer is based on typing 30 wpm, if a word is average 5 letters, using deciseconds
 		this.words = this.model.collection.heat.get("text").split(" ");
 		this.totalTime = Math.floor(this.words.join().length * (2 / 5) * 10);
-		// Wait until all players are in the room before starting the timer and allowing typing in box
-		this.gameSetup();
 	},
 
 	render: function() {
@@ -113,7 +118,6 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	},
 
 	gameSetup: function() {
-		// Wait until all players are in the room before starting the timer and allowing typing in box
 		var that = this;
 		var countStart = 4;
 		var startCountDown = setInterval(function() {

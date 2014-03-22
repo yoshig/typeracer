@@ -3,12 +3,10 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 
 	tagName: "table",
 
-	initialize: function() {
+	initialize: function(options) {
+		var channel = options.channel
 		var that = this;
 		this.racer_id = $("#current_user").data("id")
-		// this.listenTo(this.model, "change", this.moveCar)
-		var pusher = new Pusher('3ee21fe7259f11d2384c');
-    var channel = pusher.subscribe('test_channel');
 
     channel.bind('updateBoard', function(data) {
 			return that.moveCar(data)
@@ -28,6 +26,18 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 			(this.racer_id == data.racer_id)
 				?  this.$el.prepend(content)
 				: this.$el.append(content);
+		}
+		this.checkTotalPlayers();
+	},
+
+	checkTotalPlayers: function() {
+		var numRacersNeeded = this.model.collection.heat.get("num_racers");
+		var currentTotalRacers = this.$el.find(".racer").length;
+		if (currentTotalRacers === numRacersNeeded) {
+			$.ajax({
+				url: "/heats/start_game",
+				type: "GET",
+			})
 		}
 	},
 

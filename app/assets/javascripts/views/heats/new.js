@@ -6,6 +6,9 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	className: "race-board",
 
 	initialize: function() {
+		var pusher = new Pusher('3ee21fe7259f11d2384c');
+		this.channel = pusher.subscribe('test_channel');
+
 		this.words = this.model.get("text").split(" ");
 		this.addBoard();
 		this.listenTo(this.model.racerStats(),
@@ -33,7 +36,8 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 		)
 		var newBoardView = new TypeRacer.Views.BoardNew({
 			model: newRacerStat,
-			parent: this
+			parent: this,
+			channel: this.channel
 		});
 		this.addSubview("#game-board", newBoardView);
 		newBoardView.render();
@@ -41,7 +45,8 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 
 	addTrackView: function(track) {
 		this.raceTrack = new TypeRacer.Views.Track({
-			model: track
+			model: track,
+			channel: this.channel
 		});
 		this.addSubview("#race-track", this.raceTrack);
 	},
