@@ -31,9 +31,8 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 	},
 
 	checkTotalPlayers: function() {
-		var numRacersNeeded = this.model.collection.heat.get("num_racers");
 		var currentTotalRacers = this.$el.find(".racer").length;
-		if (currentTotalRacers === numRacersNeeded) {
+		if (this.practice || currentTotalRacers >= 2) {
 			$.ajax({
 				url: "/heats/start_game",
 				type: "GET",
@@ -64,6 +63,9 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 			url: "/heats/add_car",
 			type: "POST",
 			data: racer
+			success: function() {
+				that.addCar(racer);
+			}
 		})
 	}
 })

@@ -24,7 +24,7 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	},
 
 	events: {
-		"click .start-new-game": "startNewGame"
+		"click .start-new-game": "startNewGame",
 	},
 
 	addBoard: function() {

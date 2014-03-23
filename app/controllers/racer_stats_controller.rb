@@ -1,6 +1,6 @@
 class RacerStatsController < ApplicationController
   def create
-    if params[:user_id].length <= 16
+    if params[:user_id].length >= 16
       stat = racerstat_params
       (session[:races] ||= []) << racerstat_params;
     else

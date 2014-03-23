@@ -1,8 +1,5 @@
 window.TypeRacer.Views.UsersIndex = Backbone.View.extend({
 	template: JST["users/index"],
-	allTimeTemplate: JST["users/all_time"],
-	recentLeaderTemplate: JST["users/recent_leaders"],
-	mostRacesTemplate: JST["users/most_races"],
 
 	render: function(list, category) {
 		var content = this.template({

@@ -117,16 +117,23 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		console.log("YOU LOSE")
 	},
 
+	setBoard: function() {
+		debugger
+		$("div#count-down").remove();
+		var $inputField = this.$el.find(".user-input");
+		$inputField.removeAttr("placeholder disabled").focus();
+	},
+
 	gameSetup: function() {
 		var that = this;
 		var countStart = 4;
 		var startCountDown = setInterval(function() {
 			countStart--;
-			$("div#count-down").html(countStart)
+			$("#count-down").html(countStart)
 			if (countStart === 0) {
 				clearInterval(startCountDown);
 				that.runTimer();
-				$("div#count-down").remove();
+				that.setBoard()
 			}
 		}, 1000);
 	},

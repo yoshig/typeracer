@@ -62,4 +62,8 @@ class User < ActiveRecord::Base
     return 0 if recents.length == 0
     recents.inject(0) { |sum, stat| sum + stat.wpm } / recents.length
   end
+
+  def best_race
+    # self.racer_stats.
+  end
 end
