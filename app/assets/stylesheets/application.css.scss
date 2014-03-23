@@ -12,6 +12,8 @@
  *= require_tree .
  */
 
+@import "bootstrap";
+
 .unselectable {
   -moz-user-select: none;
   -webkit-user-select: none;

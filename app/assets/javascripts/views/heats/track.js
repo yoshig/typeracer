@@ -1,12 +1,11 @@
 window.TypeRacer.Views.Track = Backbone.View.extend({
 	template: JST["heats/track"],
-
-	tagName: "table",
+	className: "raceTracks col-xs-6",
 
 	initialize: function(options) {
-		var channel = options.channel
+		var channel = options.channel;
 		var that = this;
-		this.racer_id = $("#current_user").data("id")
+		this.racer_id = $("#current_user").data("id");
 
     channel.bind('updateBoard', function(data) {
 			return that.moveCar(data)
@@ -46,9 +45,9 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 
 	moveCar: function(data) {
 		var $car = this.findCar(data.racer_id);
-		$car.css("position", "absolute");
+		var trackSize = parseInt(this.$el.css("width"))
 		var movement = data.progress;
-		$car.css("left", movement * 100 + "px");
+		$car.css("margin-left", movement * trackSize + "px");
 	},
 
 	sendCarData: function(returnTo) {

@@ -6,7 +6,8 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 
 	routes: {
 		"heats/new": "heatNew",
-		"heats/gameover": "heatDone"
+		"heats/gameover": "heatDone",
+		"users/:id": "userShow"
 	},
 
 	heatDone: function() {
@@ -31,17 +32,19 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 		})
 	},
 
+	userShow: function(id) {
+		var userView = new TypeRacer.Views.UserShow({
+			model: TypeRacer.Users.get(id)
+		});
+		this._swapView(userView);
+	},
+
 	_bestScoresView: function() {
 		var that = this;
-		var userScores = new TypeRacer.Collections.Users()
-		userScores.fetch({
-			success: function() {
-				var everyPageScores = new TypeRacer.Views.UsersIndex ({
-					collection: userScores
-				});
-				that.$rootEl.append(everyPageScores.showSpeedRecords().$el)
-			}
+		var everyPageScores = new TypeRacer.Views.UsersIndex ({
+			collection: TypeRacer.Users
 		});
+		that.$rootEl.append(everyPageScores.showSpeedRecords().$el);
 	},
 
 	_swapView: function(view) {

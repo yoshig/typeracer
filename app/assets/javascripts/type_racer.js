@@ -7,11 +7,16 @@ window.TypeRacer = {
 		TypeRacer.Heats = new TypeRacer.Collections.Heats();
 		TypeRacer.Heats.fetch({
 			success: function() {
-				new TypeRacer.Routers.AppRouter({
-					$rootEl: $("#content"),
-					heats: TypeRacer.Heats
-				});
-				Backbone.history.start();
+				TypeRacer.Users = new TypeRacer.Collections.Users();
+				TypeRacer.Users.fetch({
+					success: function() {
+						new TypeRacer.Routers.AppRouter({
+							$rootEl: $("#content"),
+							heats: TypeRacer.Heats
+						});
+						Backbone.history.start();
+					}
+				})
 			}
 		})
   }

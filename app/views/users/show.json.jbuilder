@@ -1,2 +1,1 @@
-json.username @user.username
-json.racerStats @user.racer_stats
+json.partial!("users/user", :user => @user)

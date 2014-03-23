@@ -4,14 +4,19 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	className: "race-board",
 
 	initialize: function(options) {
+		var that = this;
+		var channel = options.channel;
+		// Wait until all players are in the room before starting the timer and allowing typing in box
+    channel.bind('initiateCountDown', function(data) {
+			return that.initiateCountDown()
+		});
+
 		this.parent = options.parent;
 		this.counter = 0;
 		this.totalKeys = 0;
 		// timer is based on typing 30 wpm, if a word is average 5 letters, using deciseconds
 		this.words = this.model.collection.heat.get("text").split(" ");
 		this.totalTime = Math.floor(this.words.join().length * (2 / 5) * 10);
-		// Wait until all players are in the room before starting the timer and allowing typing in box
-		this.gameSetup();
 	},
 
 	render: function() {
@@ -58,11 +63,12 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		var wordsBeg = this.words.slice(0, this.counter).join(" ");
 		var greenWord = '<span id="current-word"> ' + this.words[this.counter] + "</span> "
 		var wordsEnd = this.words.slice(this.counter + 1, this.words.length).join(" ")
-		var newContent = wordsBeg + greenWord + wordsEnd
-		$("div#game-text").html(newContent)
+		var newContent = wordsBeg + greenWord + wordsEnd;
+		$("div#game-text").html(newContent);
 	},
 
 	endGame: function(time) {
+		this.inputField().val("").attr("disabled", "disabled");
 		clearInterval(this.gameCountDown);
 		var minutes = (this.totalTime - this.timer) / 600
 		var letters = this.words.join("").length;
@@ -95,7 +101,6 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 			if (countStart === 0) {
 				clearInterval(startCountDown);
 				that.runTimer();
-				that.setBoard()
 			}
 		}, 1000);
 	},
@@ -131,7 +136,10 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	},
 
 	initiateCountDown: function() {
-		if (!this.)
+		if (!this.tMinus) {
+			this.tMinus = true;
+			this.gameSetup();
+		}
 	},
 
 
@@ -161,6 +169,13 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		}, 100);
 	},
 
+	setBoard: function() {
+ 		$("div#count-down").remove();
+  	this.inputField().removeAttr("placeholder disabled").focus();
+ 	},
+
+	inputField: function() { return this.$el.find(".user-input") },
+
 	outOfTime: function() {
 		console.log("YOU LOSE")
 	},
@@ -174,6 +189,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 			$("div#count-down").html(countStart)
 			if (countStart === 0) {
 				clearInterval(startCountDown);
+				that.setBoard();
 				that.runTimer();
 				$("div#count-down").remove();
 			}

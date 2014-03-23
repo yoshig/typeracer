@@ -1,0 +1,13 @@
+json.(
+  user,
+  :best_race,
+	:id,
+	:total_races,
+	:racer_stats,
+	:recent_wpm_avg,
+	:skill_level,
+	:start_date,
+	:total_races,
+	:username,
+	:wpm_avg
+)

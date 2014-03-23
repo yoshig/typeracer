@@ -15,6 +15,7 @@
 //= require underscore
 //= require backbone
 //= require pusher
+//= require bootstrap
 //= require type_racer
 //= require_tree ../templates
 //= require_tree ./models
