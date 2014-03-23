@@ -2,7 +2,16 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 	template: JST["heats/track"],
 	className: "raceTracks col-xs-6",
 
+	GIFS: [
+    "crash.gif",
+	  "megaman.gif",
+		"samus.gif",
+		"sonic.gif",
+		"yoshi.gif"
+	],
+
 	initialize: function(options) {
+		this.addImage();
 		var channel = options.channel;
 		var that = this;
 		this.racer_id = $("#current_user").data("id");
@@ -29,6 +38,11 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		this.checkTotalPlayers();
 	},
 
+	addImage: function() {
+		this.raceImg = this.model.img
+		  ||  this.GIFS[Math.floor(Math.random() * this.GIFS.length)];
+	},
+
 	checkTotalPlayers: function() {
 		var currentTotalRacers = this.$el.find(".racer").length;
 		if (this.practice || currentTotalRacers >= 2) {
@@ -47,7 +61,8 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		var $car = this.findCar(data.racer_id);
 		var trackSize = parseInt(this.$el.css("width"))
 		var movement = data.progress;
-		$car.css("margin-left", movement * trackSize + "px");
+		$car.animate({ "margin-left": movement * trackSize + "px" }, 100);
+		// .css("margin-left", movement * trackSize + "px");
 	},
 
 	sendCarData: function(returnTo) {
@@ -56,7 +71,8 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		var racer = {
 					racer_id: this.racer_id,
 					racer_name: racer_name,
-					return_to: returnTo
+					return_to: returnTo,
+					racer_img: this.raceImg
 			  }
 		$.ajax({
 			url: "/heats/add_car",

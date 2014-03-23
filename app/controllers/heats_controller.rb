@@ -39,6 +39,10 @@ class HeatsController < ApplicationController
   end
 
   def car_params
-    params.permit(:racer_id, :racer_name, :return_to, :progress)
+    params.permit(:racer_id,
+                  :racer_name,
+                  :return_to,
+                  :progress,
+                  :racer_img)
   end
 end
