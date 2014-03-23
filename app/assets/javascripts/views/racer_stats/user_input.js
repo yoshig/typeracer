@@ -8,7 +8,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		var channel = options.channel;
 		// Wait until all players are in the room before starting the timer and allowing typing in box
     channel.bind('initiateCountDown', function(data) {
-			return that.gameSetup()
+			return that.initiateCountDown()
 		});
 
 		this.parent = options.parent;
@@ -29,35 +29,6 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		"keyup.val .user-input": "handleInput"
 	},
 
-	handleInput: function(event) {
-		var $input = $(event.target);
-		var key = String.fromCharCode(event.keyCode);
-		if (/[a-zA-Z0-9-_]/.test(key)) {
-			this.totalKeys++
-		}
-		var userWord = $input.val();
-		var currentWord = this.words[this.counter] + " ";
-		if (currentWord === $input.val()) {
-			this.handleWordEnd($input);
-		} else if ( currentWord.match("^" + $input.val()) ) {
-			$input.css("background", "white")
-		} else {
-			$input.css("background", "red")
-		}
-	},
-
-	handleWordEnd: function(input) {
-		this.counter++;
-		this.model.progress = this.counter / this.words.length;
-		this.model.set("progress", this.model.progress)
-		input.val("");
-		this.updateBoards();
-		if (this.counter == this.words.length) {
-			this.endGame(this.timer);
-		} else {
-			this.changeWordColor();
-		}
-	},
 
 	changeWordColor: function() {
 		var wordsBeg = this.words.slice(0, this.counter).join(" ");
@@ -91,6 +62,55 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		this.parent.showScores(attrs, this.model.get("race_id"));
 	},
 
+	gameSetup: function() {
+		var that = this;
+		var countStart = 4;
+		var startCountDown = setInterval(function() {
+			countStart--;
+			$("#count-down").html(countStart)
+			if (countStart === 0) {
+				clearInterval(startCountDown);
+				that.runTimer();
+				that.setBoard()
+			}
+		}, 1000);
+	},
+
+	handleInput: function(event) {
+		var $input = $(event.target);
+		var key = String.fromCharCode(event.keyCode);
+		if (/[a-zA-Z0-9-_]/.test(key)) {
+			this.totalKeys++
+		}
+		var userWord = $input.val();
+		var currentWord = this.words[this.counter] + " ";
+		if (currentWord === $input.val()) {
+			this.handleWordEnd($input);
+		} else if ( currentWord.match("^" + $input.val()) ) {
+			$input.css("background", "white")
+		} else {
+			$input.css("background", "red")
+		}
+	},
+
+	handleWordEnd: function(input) {
+		this.counter++;
+		this.model.progress = this.counter / this.words.length;
+		this.model.set("progress", this.model.progress)
+		input.val("");
+		this.updateBoards();
+		if (this.counter == this.words.length) {
+			this.endGame(this.timer);
+		} else {
+			this.changeWordColor();
+		}
+	},
+
+
+	outOfTime: function() {
+		console.log("YOU LOSE")
+	},
+
 	runTimer: function() {
 		var that = this;
 		this.timer = 5000//this.totalTime;
@@ -113,29 +133,11 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		}, 100);
 	},
 
-	outOfTime: function() {
-		console.log("YOU LOSE")
-	},
-
 	setBoard: function() {
 		debugger
 		$("div#count-down").remove();
 		var $inputField = this.$el.find(".user-input");
 		$inputField.removeAttr("placeholder disabled").focus();
-	},
-
-	gameSetup: function() {
-		var that = this;
-		var countStart = 4;
-		var startCountDown = setInterval(function() {
-			countStart--;
-			$("#count-down").html(countStart)
-			if (countStart === 0) {
-				clearInterval(startCountDown);
-				that.runTimer();
-				that.setBoard()
-			}
-		}, 1000);
 	},
 
 	updateBoards: function() {

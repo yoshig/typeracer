@@ -62,7 +62,7 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		$.ajax({
 			url: "/heats/add_car",
 			type: "POST",
-			data: racer
+			data: racer,
 			success: function() {
 				that.addCar(racer);
 			}
