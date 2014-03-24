@@ -1,0 +1,57 @@
+<ul class="nav navbar-nav">
+	<% if signed_in? %>
+		<div id="current_user"
+		     data-name="<%= current_user.username %>"
+				 data-id="<%= current_user.id %>">
+ 		</div>
+		  <li>
+				<%= link_to "Log out", session_url, method: :delete %>
+			</li>
+
+	<% else %>
+		<div id="current_user"
+		  	 data-name="Guest"
+		     data-id="<%= session[:token] ||= SecureRandom.base64 %>">
+		 </div>
+    <li>
+		  <%= link_to "Sign in", new_session_url %>
+		</li>
+		<li>
+			<%= link_to "Sign up", new_user_url %>
+		</li>
+	<% end %>
+	<li>
+		<a href="#heats/new">Race</a>
+	</li>
+</ul>
+
+<ul class="nav navbar-nav navbar-right">
+	<li>
+		<% if signed_in? %>
+			<a href="#users/<%= current_user.id %>">
+			<%= current_user.username %>
+		<% else %>
+			<a href="#">
+				Guest
+			</a>
+		<% end %>
+	  </a>
+	</li>
+	<li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			User Stats
+		  <b class="caret"></b>
+	  </a>
+		<ul class="dropdown-menu">
+			<% if signed_in? %>
+			  <li>Skill Level: <%= current_user.skill_level %></li>
+				<li>Average Speed: <%= current_user.wpm_avg %></li>
+				<li>Races Completed: <%= current_user.total_races %></li>
+			<% else %>
+				<li>Skill Level: <%= session_skill %></li>
+				<li>Average Speed: <%= session_wpm %></li>
+				<li>Races Completed: <%= session_races %></li>
+			<% end %>
+			</ul>
+		</li>
+</ul>
