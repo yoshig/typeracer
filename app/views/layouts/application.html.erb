@@ -7,32 +7,24 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-	<% if signed_in? %>
-		<div id="current_user"
-		     data-name="<%= current_user.username %>"
-				 data-id="<%= current_user.id %>"></div>
-	  <%= current_user.username %>
-	  <%= button_to "Log out", session_url, method: :delete %>
-	<% else %>
-		<div id="current_user"
-		  	 data-name="Guest"
-		     data-id="<%= session[:token] ||= SecureRandom.base64 %>">
-		<%= link_to "Sign in", new_session_url %>
-		or
-		<%= link_to "Sign up", new_user_url %>
-	<% end %>
-
-	<% if flash.now[:errors] %>
-		<% flash.now[:errors].each do |error| %>
-			<%= error %>
-		<% end %>
-	<% end %>
+	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="container">
+			<a class="navbar-brand" href"#">CodeSprint</a>
+		<%= render "layouts/user_data" %>
+		</div>
+	</div>
 
 <a href="#heats/new">Start a new game</a>
 
+<% if flash.now[:errors] %>
+	<% flash.now[:errors].each do |error| %>
+		<%= error %>
+	<% end %>
+<% end %>
+
 <%# image_tag "megaman.gif" %>
 
-<div id="content">
+<div class="jumbotron" id="content">
 	<%= yield %>
 </div>
 

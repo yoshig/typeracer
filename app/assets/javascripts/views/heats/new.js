@@ -3,7 +3,7 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 
 	scoresTemplate: JST["heats/scores"],
 
-	className: "race-board",
+	className: "race-board col-md-12",
 
 	initialize: function() {
 		var pusher = new Pusher('3ee21fe7259f11d2384c');

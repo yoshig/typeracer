@@ -1,13 +1,21 @@
-<div id="game-text" class="unselectable">
-	<span id="current-word">
-		<%= words[0] + " " %>
-	</span><%= words.slice(1).join(" ") %>
-</div>
-
-<form>
-	<input type="text"
-	       value=""
-				 class="user-input"
-				 disabled="disabled"
-				 placeholder="Get Ready To Type!">
+<form class="form-inline" role="form">
+	<div class="form-group">
+		<label for="user-input">
+			<div id="game-text" class="unselectable">
+				<span id="current-word">
+					<%= words[0] + " " %>
+				</span><%= words.slice(1).join(" ") %>
+			</div>
+		</label>
+<p>
+		<div class="form-group">
+			<input type="text"
+			       value=""
+						 id="user-input"
+						 class="user-input form-control"
+						 disabled="disabled"
+						 placeholder="Get Ready To Type!">
+		 </div>
+	 </div>
+	 </p>
 </form>

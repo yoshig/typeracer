@@ -1,6 +1,6 @@
 window.TypeRacer.Views.Track = Backbone.View.extend({
 	template: JST["heats/track"],
-	className: "raceTracks col-xs-6",
+	className: "raceTracks col-md-6",
 
 	GIFS: [
     "crash.gif",

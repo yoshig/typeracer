@@ -1,7 +1,7 @@
 window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	template: JST["racer_stats/user_input"],
 
-	className: "race-board",
+	className: "race-board .col-md-12",
 
 	initialize: function(options) {
 		var that = this;
@@ -198,12 +198,13 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 
 	updateBoards: function() {
 		var progress = this.model.get("progress");
+		var wpm = this.model.get("wpm");
 		$.ajax({
 			url: "/heats/update_board",
 			type: "POST",
 			data: {
 				racer_id: this.model.get("user_id"),
-				progress: progress
+				progress: progress,
 			}
 		})
 	}
