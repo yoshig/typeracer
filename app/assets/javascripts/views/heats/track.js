@@ -10,6 +10,17 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		"yoshi.gif"
 	],
 
+	PLACES: [
+	"First",
+	"Second",
+	"Third",
+	"Fourth",
+	"Fifth",
+	"Sixth",
+	"Seventh",
+	"Eighth"
+	],
+
 	initialize: function(options) {
 		this.addImage();
 		var channel = options.channel;
@@ -53,6 +64,13 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		}
 	},
 
+	endTrack: function($car) {
+		debugger
+		var place = this.PLACES[this.$el.find(".finished").length]
+		$car.find(".racer_car")
+		    .html("<span class='finished'>" + place + "!</span>")
+	},
+
 	findCar: function(id) {
 		return $("[data-racer-id='"+ id + "']")
 	},
@@ -62,7 +80,8 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		var trackSize = parseInt(this.$el.css("width"))
 		var movement = data.progress;
 		$car.animate({ "margin-left": movement * trackSize + "px" }, 100);
-		// .css("margin-left", movement * trackSize + "px");
+
+		if (data.progress == 1) { this.endTrack($car) }
 	},
 
 	sendCarData: function(returnTo) {
