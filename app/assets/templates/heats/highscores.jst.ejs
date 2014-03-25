@@ -1,23 +1,44 @@
-<button class="start-new-game">Race Again?</button>
+<div class="test">INFO ON RACE!</div>
 
-DEM SCORES DOH
+<button class="start-new-game btn btn-success">Race Again?</button>
+
+<% if (heat_stat.slowpoke) { %>
+	Nice try, but you didn't finish in time.
+<% } else { %>
+	<table class="current-race-scores table">
+		<tr>
+			<td>Your speed:</td><td><%= heat_stat.wpm %> wpm</td>
+		</tr>
+		<tr>
+			<td>Time:</td><td><%= heat_stat.time %></td>
+		</tr>
+		<tr>
+			<td>Accuracy:</td><td><%= heat_stat.wpm_percentile %></td>
+		</tr>
+	</table>
+<% } %>
+
+
 <header class="highscore-header">
 <span class="race-all-time-scores">Fastest Typists</span>
 <span class="race-personal-scores">My Scores</span>
 </header>
 
-<table class="show-scores">
+<table class="show-scores table table-striped">
 	<% if (list.length !== 0) { %>
 		<tr>
 			<th>User</th><th>Speed</th>
 		</tr>
 		<% list.forEach(function(score) { %>
-			<tr>
+		<tr class="top-user" data-racer="<%- score.username %>">
 			<td><%- score.username %></td><td><%= score.wpm %> wpm</td>
-			</th>
+		</tr>
+
 		<% }) %>
 	<% } else { %>
 		You have to race more and be signed in to see your top scores!
 	<% } %>
 
 </table>
+
+<div class="user-modal"></div>

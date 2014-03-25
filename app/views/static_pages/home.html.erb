@@ -1,14 +1,10 @@
-<div class="title">Code Sprint</div>
-
-GRAPHICS!
-
 <% if (signed_in?) %>
 
   <h1 id="welcome-title"> Welcome, <%= current_user.username %>!</h1>
 
 	<div class="user-show"><%= link_to "See Your Stats", user_url(current_user) %></div>
 
-	<div class="race"><a href="#heats/new">Practice</a></div>
+	<div class="race"><a href="#heats/new">Race Now!</a></div>
 
 <% else %>
 

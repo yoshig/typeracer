@@ -3,7 +3,7 @@ TypeRacer::Application.routes.draw do
 
   post "/heats/update_board", to: "heats#update_board"
   post "/heats/add_car", to: "heats#add_car"
-  get "/heats/start_game", to: "heats#start_game"
+  post "/heats/start_game", to: "heats#start_game"
 
   resources :users, except: :destroy
   resource :session, only: [:create, :new, :destroy]

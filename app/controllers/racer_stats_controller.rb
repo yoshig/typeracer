@@ -1,8 +1,7 @@
 class RacerStatsController < ApplicationController
   def create
     if params[:user_id].is_a?(String)
-      stat = racerstat_params
-      (session[:races] ||= []) << racerstat_params;
+      session_stats;
     else
       heat = create_or_find_heat
       stat = heat.racer_stats.build(racerstat_params)
@@ -29,5 +28,12 @@ class RacerStatsController < ApplicationController
   def create_or_find_heat
     @heat = Heat.find_by(created_at: params[:racer_stat][:heat_time]) ||
     Heat.create(race_id: params[:race_id], created_at: params[:heat_time])
+  end
+
+  def session_stats
+    num_races = session[:races][:total] += 1
+    wpm = session[:races][:wpm].to_i
+    session[:races][:wpm] =
+      ((num_races * wpm) + params[:wpm].to_i)/ num_races
   end
 end

@@ -7,10 +7,27 @@
 }
 
 .raceTracks {
+	background-color: gray;
+	border-bottom: 4px dashed black;
+	border-top: 4px dashed black;
+//	outline: 4px solid white;
+	margin-bottom: 5px;
 }
 
 .racer {
 	margin-right:0px;
+	display: inline-block;
 }
+
+.racer_name {
+	color: white;
+}
+
+.race_wpm {
+	float: right;
+	display: inline;
+	margin: 10px;
+}
+
 
 

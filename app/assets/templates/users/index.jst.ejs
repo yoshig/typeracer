@@ -1,19 +1,20 @@
-DA USER SCORES!
 <header class="all-views-highscore-header">
 <span class="user-all-time-wpm">Fastest Typists</span>
 <span class="user-recent-wpm">Recent Leaders</span>
 <span class="user-total-races">Total Races</span>
 </header>
 
-<table class="all-pages-show-scores">
+<table class="all-pages-show-scores table table-striped table-bordered">
 	<tr>
+		<th>#</th>
 		<th>User</th>
 		<th>
 			<%= category == "races" ? "Total Races" : "Speed" %>
 		</th>
 	</tr>
-	<% list.forEach(function(score) { %>
+	<% _.each(list, function(score, i) { %>
 		<tr>
+			<td><%= i + 1 %></td>
 		<td><%= score.escape("username") %></td>
 		<td><%- score.escape(category) %> wpm</td>
 		</th>

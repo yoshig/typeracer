@@ -6,8 +6,7 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	className: "race-board col-md-12",
 
 	initialize: function() {
-		var pusher = new Pusher('3ee21fe7259f11d2384c');
-		this.channel = pusher.subscribe('test_channel');
+		this.channel = TypeRacer.pusher.subscribe('game_lobby');
 
 		this.words = this.model.get("text").split(" ");
 		this.addBoard();
@@ -34,13 +33,13 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 						user_name: $("#current_user").data("name")
 					})
 		)
-		var newBoardView = new TypeRacer.Views.BoardNew({
+		this.boardView = new TypeRacer.Views.BoardNew({
 			model: newRacerStat,
 			parent: this,
 			channel: this.channel
 		});
-		this.addSubview("#game-board", newBoardView);
-		newBoardView.render();
+		this.addSubview("#game-board", this.boardView);
+		this.boardView.render();
 	},
 
 	addTrackView: function(track) {
@@ -51,19 +50,21 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 		this.addSubview("#race-track", this.raceTrack);
 	},
 
-	showScores: function(model, race_id) {
+	showScores: function(model) {
+		this.boardView.remove()
 		var that = this;
 		var race = new TypeRacer.Models.Race({
-			id: race_id
+			id: model.race_id
 		})
 
 		race.fetch({
 			success: function() {
 				var highScoresView = new TypeRacer.Views.HeatHighScores({
-					racerStats: race.get("racerStats"),
-					model: race
+					race: race,
+					model: model
 				})
-				that.$el.append(highScoresView.showAllTimeHighs().$el)
+				that.addSubview("#score-board", highScoresView);
+				highScoresView.showAllTimeHighs();
 			}
 		})
 	},
@@ -73,11 +74,4 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 		Backbone.history.navigate("#heats/gameover", { trigger: true } )
 	}
 })
-
-
-
-
-
-
-
 

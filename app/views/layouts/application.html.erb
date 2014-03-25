@@ -9,12 +9,12 @@
 <body>
 	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="container">
-			<a class="navbar-brand" href"#">CodeSprint</a>
+			<a class="navbar-brand" href="/">CodeSprint</a>
 		<%= render "layouts/nav_bar" %>
 		</div>
 	</div>
 
-<a href="#heats/new">Start a new game</a>
+<a href="/#heats/new">Start a new game</a>
 
 <% if flash.now[:errors] %>
 	<% flash.now[:errors].each do |error| %>

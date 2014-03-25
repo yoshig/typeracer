@@ -1,6 +1,6 @@
 class HeatsController < ApplicationController
   def add_car
-    Pusher["test_channel"].trigger('addCar', car_params)
+    Pusher["game_lobby"].trigger('addCar', car_params)
     head :ok
   end
 
@@ -24,12 +24,14 @@ class HeatsController < ApplicationController
   end
 
   def start_game
-    Pusher["test_channel"].trigger('initiateCountDown', {})
+    Pusher["game_lobby"].trigger('initiateCountDown', {
+      channel: params[:channel]
+    })
     head :ok
   end
 
   def update_board
-    Pusher["test_channel"].trigger('updateBoard', car_params)
+    Pusher[params[:channel]].trigger('updateBoard', car_params)
     head :ok
   end
 
@@ -43,6 +45,8 @@ class HeatsController < ApplicationController
                   :racer_name,
                   :return_to,
                   :progress,
-                  :racer_img)
+                  :racer_img,
+                  :wpm,
+                  :channel)
   end
 end

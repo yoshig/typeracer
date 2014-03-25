@@ -4,6 +4,7 @@ window.TypeRacer = {
   Views: {},
   Routers: {},
   initialize: function() {
+		TypeRacer.pusher = new Pusher('3ee21fe7259f11d2384c');
 		TypeRacer.Heats = new TypeRacer.Collections.Heats();
 		TypeRacer.Heats.fetch({
 			success: function() {

@@ -21,14 +21,14 @@
 		</li>
 	<% end %>
 	<li>
-		<a href="#heats/new">Race</a>
+		<a href="/#heats/new">Race</a>
 	</li>
 </ul>
 
 <ul class="nav navbar-nav navbar-right">
 	<li>
 		<% if signed_in? %>
-			<a href="#users/<%= current_user.id %>">
+			<a href="/#users/<%= current_user.id %>">
 			<%= current_user.username %>
 		<% else %>
 			<a href="#">

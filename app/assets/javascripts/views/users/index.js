@@ -1,5 +1,6 @@
 window.TypeRacer.Views.UsersIndex = Backbone.View.extend({
 	template: JST["users/index"],
+	className: "race-board col-md-12",
 
 	render: function(list, category) {
 		var content = this.template({

@@ -5,6 +5,7 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	routes: {
+		"highscores": "highScoresView",
 		"heats/new": "heatNew",
 		"heats/gameover": "heatDone"
 	},
@@ -31,6 +32,13 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 		})
 	},
 
+	highScoresView: function() {
+		debugger
+		this.currentView && this.currentView.remove();
+		this.currentView
+		this._bestScoresView();
+	},
+
 	_bestScoresView: function() {
 		var that = this;
 		var userScores = new TypeRacer.Collections.Users()
@@ -50,5 +58,4 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 		this.$rootEl.html(view.render().$el);
 		this._bestScoresView();
 	}
-})
-;
+});
