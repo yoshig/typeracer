@@ -20,19 +20,29 @@ window.TypeRacer.Views.UsersIndex = Backbone.View.extend({
 	events: {
 		"click .user-all-time-wpm": "showSpeedRecords",
 		"click .user-recent-wpm": "showRecentRecords",
-		"click .user-total-races": "showMostRaces"
+		"click .user-total-races": "showMostRaces",
+		"click .hof-user": "modalUser"
 	},
 
-	showSpeedRecords: function() {
-		return this.sortScores("wpm_avg");
+	modalUser: function(target) {
+		var user = TypeRacer.Users.where({
+			username: $(event.target).html()
+		})[0];
+		var content = this.modalTemplate({ user: user })
+		this.$el.find(".user-modal").html(content);
+		$("#user-modal").modal('show')
+	},
+
+	showMostRaces: function() {
+		return this.sortScores("races");
 	},
 
 	showRecentRecords: function() {
     return this.sortScores("recent_wpm_avg");
 	},
 
-	showMostRaces: function() {
-		return this.sortScores("races");
+	showSpeedRecords: function() {
+		return this.sortScores("wpm_avg");
 	},
 
 	sortScores: function(stat) {

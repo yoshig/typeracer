@@ -27,11 +27,13 @@
 <table class="show-scores table table-striped">
 	<% if (list.length !== 0) { %>
 		<tr>
-			<th>User</th><th>Speed</th>
+			<th>#</th><th>User</th><th>Speed</th>
 		</tr>
-		<% list.forEach(function(score) { %>
+		<% list.forEach(function(score, i) { %>
 		<tr class="top-user" data-racer="<%- score.username %>">
-			<td><%- score.username %></td><td><%= score.wpm %> wpm</td>
+			<td><%= i + 1 %></td>
+			<td><%- score.username %></td>
+			<td><%= score.wpm %> wpm</td>
 		</tr>
 
 		<% }) %>
