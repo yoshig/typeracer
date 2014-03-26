@@ -20,7 +20,7 @@ end
 
 Race.all.each do |race|
   3.times do
-    new_heat = Heat.create(race_id: 2)
+    new_heat = Heat.create(race_id: race.id)
     (3 + Random.rand(2)).times do
       RacerStat.create(heat_id: new_heat.id,
                        user_id: User.all.sample.id,

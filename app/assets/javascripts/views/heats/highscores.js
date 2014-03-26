@@ -35,6 +35,7 @@ window.TypeRacer.Views.HeatHighScores = Backbone.CompositeView.extend({
 	},
 
 	showAllTimeHighs: function() {
+		debugger
 		var content = this.sortScores(this.racerStats)
 		this.render(content);
 		return this;
