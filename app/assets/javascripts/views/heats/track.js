@@ -65,7 +65,9 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 				url: "/heats/start_game",
 				type: "POST",
 				data: {
-					channel: gameChannel
+					channel: gameChannel,
+					text: this.model.collection.heat.get("text"),
+					race_id: this.model.collection.heat.get("race_id")
 				}
 			})
 		}
@@ -121,4 +123,4 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 			});
 		}
 	}
-})
+});

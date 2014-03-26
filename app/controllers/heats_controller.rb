@@ -24,9 +24,7 @@ class HeatsController < ApplicationController
   end
 
   def start_game
-    Pusher["game_lobby"].trigger('initiateCountDown', {
-      channel: params[:channel]
-    })
+    Pusher["game_lobby"].trigger('initiateCountDown', start_heat_params)
     head :ok
   end
 
@@ -48,5 +46,9 @@ class HeatsController < ApplicationController
                   :racer_img,
                   :wpm,
                   :channel)
+  end
+
+  def start_heat_params
+    params.permit(:channel, :race_id, :text)
   end
 end

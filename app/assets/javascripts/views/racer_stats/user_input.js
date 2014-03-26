@@ -5,11 +5,9 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 
 	initialize: function(options) {
 		var that = this;
-		var channel = options.channel;
+		this.gameChannel = options.channel;
 		// Wait until all players are in the room before starting the timer and allowing typing in box
-    channel.bind('initiateCountDown', function(data) {
-			return that.initiateCountDown(data)
-		});
+		this.gameSetup();
 
 		this.parent = options.parent;
 		this.counter = 0;
@@ -94,7 +92,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		if (currentWord === $input.val()) {
 			this.handleWordEnd($input);
 		} else if ( currentWord.match("^" + $input.val()) ) {
-			$input.css("background", "white")
+			$input.css("background", "white").css("color", "black")
 		} else {
 			$input.css("background", "red").css("color", "white")
 		}
@@ -110,14 +108,6 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 			this.endGame(this.timer);
 		} else {
 			this.changeWordColor();
-		}
-	},
-
-	initiateCountDown: function(data) {
-		var that = this;
-		if (!this.gameChannel) {
-			this.gameChannel = data.channel;
-			this.gameSetup();
 		}
 	},
 

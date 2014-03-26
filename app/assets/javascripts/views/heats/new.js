@@ -6,13 +6,21 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	className: "race-board col-md-12",
 
 	initialize: function() {
+		var that = this
 		this.channel = TypeRacer.pusher.subscribe('game_lobby');
+    this.channel.bind('initiateCountDown', function(data) {
+			return that.initiateCountDown(data)
+		});
 
 		this.words = this.model.get("text").split(" ");
-		this.addBoard();
-		this.listenTo(this.model.racerStats(),
-		              "add",
-									this.addTrackView(this.model.racerStats().last()))
+
+		this.track = this.model.racerStats().add(
+			new TypeRacer.Models.RacerStat({
+						user_id: $("#current_user").data("id"),
+						user_name: $("#current_user").data("name")
+			})
+		);
+		this.addTrackView(this.track);
 	},
 
 	render: function() {
@@ -27,16 +35,10 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	},
 
 	addBoard: function() {
-		var newRacerStat = this.model.racerStats().add(
-			new TypeRacer.Models.RacerStat({
-						user_id: $("#current_user").data("id"),
-						user_name: $("#current_user").data("name")
-					})
-		)
 		this.boardView = new TypeRacer.Views.BoardNew({
-			model: newRacerStat,
+			model: this.track,
 			parent: this,
-			channel: this.channel
+			channel: this.gameChannel
 		});
 		this.addSubview("#game-board", this.boardView);
 		this.boardView.render();
@@ -44,10 +46,22 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 
 	addTrackView: function(track) {
 		this.raceTrack = new TypeRacer.Views.Track({
-			model: track,
+			model: this.track,
 			channel: this.channel
 		});
 		this.addSubview("#race-track", this.raceTrack);
+	},
+
+	initiateCountDown: function(data) {
+		var that = this;
+		if (!this.gameChannel) {
+			this.gameChannel = data.channel;
+			this.model.set({
+				text: data.text,
+				race_id: data.race_id
+			})
+			this.addBoard();
+		}
 	},
 
 	showScores: function(model) {
