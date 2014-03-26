@@ -15,15 +15,14 @@
 						User
 					</th>
 					<th>
-						<%= category == "races" ? "Total Races" : "Speed" %>
+						<%= category == "races" ? "Total Races" : "WPM" %>
 					</th>
 				</tr>
-				<% _.each(list, function(score, i) { %>
-					<% debugger %>
-					<tr class="hof-user" data-racer="<%- score.user_id %>">
+				<% _.each(list, function(racer, i) { %>
+					<tr class="hof-user" data-racer="<%= racer.user_id %>">
 						<td><%= i + 1 %></td>
-						<td><%= score.user_id %></td>
-						<td><%- score.id %></td>
+						<td><%- racer.username %></td>
+						<td><%= racer[category] %></td>
 					</th>
 				<% }) %>
 			</table>

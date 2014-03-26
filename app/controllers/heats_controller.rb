@@ -16,7 +16,7 @@ class HeatsController < ApplicationController
     # Normally, use race.passage for the text
     render json: { start_time: Time.now.to_s,
                    race_id: race.id,
-                   text: "This is a test" }
+                   text: race.passage }
   end
 
   def show

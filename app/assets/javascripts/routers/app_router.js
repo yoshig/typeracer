@@ -1,7 +1,6 @@
 window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	initialize: function(options) {
 		this.$rootEl = options.$rootEl;
-		this.heats = options.heats
 	},
 
 	routes: {

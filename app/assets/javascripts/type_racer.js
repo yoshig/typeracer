@@ -5,19 +5,13 @@ window.TypeRacer = {
   Routers: {},
   initialize: function() {
 		TypeRacer.pusher = new Pusher('3ee21fe7259f11d2384c');
-		TypeRacer.Heats = new TypeRacer.Collections.Heats();
-		TypeRacer.Heats.fetch({
+		TypeRacer.RacerStats = new TypeRacer.Models.RacerStat();
+		TypeRacer.RacerStats.fetch({
 			success: function() {
-				TypeRacer.RacerStats = new TypeRacer.Models.RacerStat();
-				TypeRacer.RacerStats.fetch({
-					success: function() {
-						new TypeRacer.Routers.AppRouter({
-							$rootEl: $("#content"),
-							heats: TypeRacer.Heats
-						});
-						Backbone.history.start();
-					}
-				})
+				new TypeRacer.Routers.AppRouter({
+					$rootEl: $("#content")
+				});
+				Backbone.history.start();
 			}
 		})
   }

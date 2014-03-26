@@ -33,7 +33,7 @@ class RacerStat < ActiveRecord::Base
   end
 
   def self.most_races
-    RacerStat.select("count(user_id) as races, user_id as user_id")
+    RacerStat.select("user_id AS user_id, count(user_id) AS most_races")
              .group(:user_id)
              .order("count(user_id) DESC")
              .includes(:user)

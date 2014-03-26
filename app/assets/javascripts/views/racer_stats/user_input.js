@@ -16,7 +16,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		this.totalKeys = 0;
 		// timer is based on typing 30 wpm, if a word is average 5 letters, using deciseconds
 		this.words = this.model.collection.heat.get("text").split(" ");
-		this.totalTime = 10000 //Math.floor(this.words.join().length * (2 / 5) * 10);
+		this.totalTime = Math.floor(this.words.join().length * (2 / 5) * 10);
 	},
 
 	render: function() {
@@ -96,7 +96,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		} else if ( currentWord.match("^" + $input.val()) ) {
 			$input.css("background", "white")
 		} else {
-			$input.css("background", "red")
+			$input.css("background", "red").css("color", "white")
 		}
 	},
 

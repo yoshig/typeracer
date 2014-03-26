@@ -26,28 +26,33 @@
 	</div>
 </div>
 
-<header class="highscore-header">
-<span class="race-all-time-scores">Fastest Typists</span>
-<span class="race-personal-scores">My Scores</span>
-</header>
+<div class="row">
+	<div class="col-md-6">
+		<header class="highscore-header panel panel-default">
+		<span class="race-all-time-scores">Fastest Typists</span>
+		<span class="race-personal-scores">My Scores</span>
+		</header>
 
-<table class="show-scores table table-striped table-bordered">
-	<% if (list.length !== 0) { %>
-		<tr>
-			<th>#</th><th>User</th><th>Speed</th>
-		</tr>
-		<% list.forEach(function(score, i) { %>
-		<tr class="top-user" data-racer="<%- score.username %>">
-			<td><%= i + 1 %></td>
-			<td><%- score.username %></td>
-			<td><%= score.wpm %> wpm</td>
-		</tr>
+		<table class="show-scores table table-striped table-bordered">
+			<% if (list.length !== 0) { %>
+				<tr>
+					<th>#</th><th>User</th><th>Speed</th>
+				</tr>
+				<% debugger %>
+				<% list.forEach(function(score, i) { %>
+				<tr class="top-user" data-racer="<%- score.user_id %>">
+					<td><%= i + 1 %></td>
+					<td><%- score.username %></td>
+					<td><%= score.wpm_avg %> wpm</td>
+				</tr>
 
-		<% }) %>
-	<% } else { %>
-		You have to race more and be signed in to see your top scores!
-	<% } %>
+				<% }) %>
+			<% } else { %>
+				You have to race more and be signed in to see your top scores!
+			<% } %>
 
-</table>
+		</table>
+	</div>
+</div>
 
 <div class="user-modal"></div>

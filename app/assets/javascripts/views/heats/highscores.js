@@ -5,8 +5,8 @@ window.TypeRacer.Views.HeatHighScores = Backbone.CompositeView.extend({
 	className: "alltime-highscores col-md-12",
 
 	initialize: function(options) {
-		debugger
 		this.race = options.race;
+		this.racerStats = this.race.get("racer_stats");
 	},
 
 	events: {
@@ -16,13 +16,16 @@ window.TypeRacer.Views.HeatHighScores = Backbone.CompositeView.extend({
 	},
 
 	modalUser: function(target) {
-		debugger
-		var user = TypeRacer.RacerStats.where({
-			username: $(event.target).parent().data("racer")
-		})[0];
-		var content = this.modalTemplate({ user: user })
-		this.$el.find(".user-modal").html(content);
-		$("#user-modal").modal('show')
+		var that = this;
+		var racer_id = $(event.target).parent().data("racer");
+		var user = new TypeRacer.Models.User({ id: racer_id });
+		user.fetch({
+			success: function() {
+				var content = that.modalTemplate({ user: user });
+				that.$el.find(".user-modal").html(content);
+				$("#user-modal").modal('show');
+			}
+		});
 	},
 
 	render: function(list) {
@@ -54,7 +57,7 @@ window.TypeRacer.Views.HeatHighScores = Backbone.CompositeView.extend({
 
 	sortScores: function(scores) {
 		return _.sortBy(scores, function(stat) {
-					return stat.wpm
-				}).reverse().slice(0,10);
+			return stat.wpm_avg
+		}).reverse().slice(0,10);
 	}
 });

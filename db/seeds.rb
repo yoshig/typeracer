@@ -10,7 +10,7 @@
 # User.create(username: "yoshi", password: "123456")
 
 
-100.times do
+50.times do
   user_name = Faker::Internet.user_name
   unless User.find_by(username: user_name)
     User.create(username: user_name,
@@ -19,7 +19,7 @@
 end
 
 Race.all.each do |race|
-  3.times do
+  2.times do
     new_heat = Heat.create(race_id: race.id)
     (3 + Random.rand(2)).times do
       RacerStat.create(heat_id: new_heat.id,
