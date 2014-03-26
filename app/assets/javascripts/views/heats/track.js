@@ -74,7 +74,7 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 	endTrack: function($car) {
 		var place = this.PLACES[this.$el.find(".finished").length]
 		$car.find(".racer_car")
-		    .html("<span class='finished'>" + place + "!</span>")
+		    .html("<span class='finished btn btn-success'>" + place + "!</span>")
 	},
 
 	findCar: function(id) {
@@ -83,12 +83,12 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 
 	moveCar: function(data) {
 		var $car = this.findCar(data.racer_id);
-		var trackSize = this.$el.width()
+		var trackSize = $car.parent().width()
 		var movement = data.progress * .9;
 		$car.animate({ "margin-left": movement * trackSize + "px" }, 100);
 
 		var wpm = data.wpm || 0;
-		$car.next().html(wpm + " WPM")
+		$car.parent().parent().find(".race_wpm").html(wpm + " WPM")
 		if (data.progress == 1) { this.endTrack($car) }
 	},
 

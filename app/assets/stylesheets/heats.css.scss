@@ -4,6 +4,17 @@
 
 #current-word {
 	color: green;
+	text-decoration: underline;
+}
+
+.finish_line {
+	border-right: 8px solid red;
+	height: 60px;
+}
+
+.finished {
+	margin-left: 50px;
+	margin-top: 10px;
 }
 
 .raceTracks {
@@ -16,6 +27,7 @@
 
 .racer {
 	margin-right:0px;
+	padding-left: 30px;
 	display: inline-block;
 }
 
@@ -24,10 +36,19 @@
 }
 
 .race_wpm {
+	color: white;
 	float: right;
 	display: inline;
 	margin: 10px;
+	display: inline-block;
 }
 
-
-
+.race_text {
+	background-color: white;
+	font-size: 17px;
+	border: 5px solid gray;
+	border-style: outset;
+	padding: 10px;
+	border-radius: 10px;
+	-moz-border-radius: 35px;
+}

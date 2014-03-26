@@ -1,22 +1,30 @@
-<div class="test">INFO ON RACE!</div>
+<div class="text-info">
+  You just wrote a passage <%= race.get("source") %>.
+</div>
 
-<button class="start-new-game btn btn-success">Race Again?</button>
+<div class="row">
+	<div class="col-md-6">
+		<% if (heat_stat.slowpoke) { %>
+			Nice try, but you didn't finish in time.
+		<% } else { %>
+			<table class="current-race-scores table">
+				<tr>
+					<td>Your speed:</td><td><%= heat_stat.wpm %> wpm</td>
+				</tr>
+				<tr>
+					<td>Time:</td><td><%= heat_stat.time %></td>
+				</tr>
+				<tr>
+					<td>Accuracy:</td><td><%= heat_stat.wpm_percentile %></td>
+				</tr>
+			</table>
+	<% } %>
+	</div>
 
-<% if (heat_stat.slowpoke) { %>
-	Nice try, but you didn't finish in time.
-<% } else { %>
-	<table class="current-race-scores table">
-		<tr>
-			<td>Your speed:</td><td><%= heat_stat.wpm %> wpm</td>
-		</tr>
-		<tr>
-			<td>Time:</td><td><%= heat_stat.time %></td>
-		</tr>
-		<tr>
-			<td>Accuracy:</td><td><%= heat_stat.wpm_percentile %></td>
-		</tr>
-	</table>
-<% } %>
+	<div class="col-md-6">
+		<button class="start-new-game btn btn-info">Race Again?</button>
+	</div>
+</div>
 
 
 <header class="highscore-header">
@@ -24,7 +32,7 @@
 <span class="race-personal-scores">My Scores</span>
 </header>
 
-<table class="show-scores table table-striped">
+<table class="show-scores table table-striped table-bordered">
 	<% if (list.length !== 0) { %>
 		<tr>
 			<th>#</th><th>User</th><th>Speed</th>

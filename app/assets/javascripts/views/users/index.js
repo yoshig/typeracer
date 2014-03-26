@@ -1,5 +1,6 @@
 window.TypeRacer.Views.UsersIndex = Backbone.View.extend({
 	template: JST["users/index"],
+	modalTemplate: JST["users/modal"],
 	className: "race-board col-md-12",
 
 	render: function(list, category) {
@@ -26,7 +27,7 @@ window.TypeRacer.Views.UsersIndex = Backbone.View.extend({
 
 	modalUser: function(target) {
 		var user = TypeRacer.Users.where({
-			username: $(event.target).html()
+			username: $(event.target).parent().data("racer")
 		})[0];
 		var content = this.modalTemplate({ user: user })
 		this.$el.find(".user-modal").html(content);
@@ -48,7 +49,7 @@ window.TypeRacer.Views.UsersIndex = Backbone.View.extend({
 	sortScores: function(stat) {
 		var content = this.collection.sortBy(function(user) {
 			return user.get(stat)
-		}).reverse()
+		}).reverse().slice(0,10);
 		this.render(content, stat)
 		return this;
 	}

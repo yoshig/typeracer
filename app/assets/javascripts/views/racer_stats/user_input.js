@@ -42,7 +42,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 
 	changeWordColor: function() {
 		var wordsBeg = this.words.slice(0, this.counter).join(" ");
-		var greenWord = '<span id="current-word"> ' + this.words[this.counter] + "</span> "
+		var greenWord = ' <span id="current-word">' + this.words[this.counter] + "</span> "
 		var wordsEnd = this.words.slice(this.counter + 1, this.words.length).join(" ")
 		var newContent = wordsBeg + greenWord + wordsEnd;
 		$("div#game-text").html(newContent);

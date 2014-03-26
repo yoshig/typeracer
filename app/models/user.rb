@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   }
 
   def best_race
-    self.racer_stats.max_by(&:wpm).wpm
+    self.no_races? || self.racer_stats.max_by(&:wpm).wpm
   end
 
   def ensure_session_token
@@ -51,6 +51,7 @@ class User < ActiveRecord::Base
   end
 
   def last_ten_wpm_avg
+    return 0 if last_ten.length == 0
     self.last_ten.inject(0) do |sum, stat|
       sum + stat.wpm
     end / self.last_ten.length
@@ -98,7 +99,7 @@ class User < ActiveRecord::Base
   end
 
   def wpm_avg
-    return 0 if self.racer_stats.length == 0
+    self.no_races? ||
     (self.racer_stats.inject(0) do |sum, stat|
       sum + stat.wpm
     end / racer_stats.length).round(0)
@@ -108,4 +109,11 @@ class User < ActiveRecord::Base
     user = User.find_by(username: username)
     user.try(:is_password?, password) ? user : nil
   end
+
+  def no_races?
+    self.racer_stats.length == 0 ? 0 : false
+  end
 end
+
+
+

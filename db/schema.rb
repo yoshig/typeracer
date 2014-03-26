@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140319154611) do
+ActiveRecord::Schema.define(version: 20140325213704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20140319154611) do
     t.text     "passage"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "source",     null: false
   end
 
   add_index "races", ["passage"], name: "index_races_on_passage", unique: true, using: :btree

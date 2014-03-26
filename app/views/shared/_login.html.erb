@@ -1,13 +1,31 @@
-<form action="<%= url %>" method="post" >
+<form role="form" class="form-inline" action="<%= url %>" method="post" >
   <input type="hidden" name="authenticity_token" type="<%= form_authenticity_token %>">
-  <br>
 
+	<div class="form-group">
   <label for="username">Username</label>
-  <input type="text" name="user[username]" value="<%= user.username %>" id="username">
-  <br>
+  <input class="form-control"
+				 id="username"
+				 name="user[username]"
+	       type="text"
+				 value="<%= user.username %>" >
+	</div>
 
+	<br>
+	<br>
+
+
+	<div class="form-group">
   <label for="password">Password</label>
-  <input type="password" name="user[password]" value="" id="password">
+  <input class="form-control"
+				 id="password"
+	       name="user[password]"
+	       type="password"
+				 value="">
+	</div>
 
-  <p><input type="submit" value="Continue &rarr;"></p>
+	<br><br>
+
+  <button type="submit" value="Continue &rarr;" class="btn btn-success">
+  	Let's Get Racing!
+  </button>
 </form>

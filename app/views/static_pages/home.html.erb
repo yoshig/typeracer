@@ -1,24 +1,32 @@
 <% if (signed_in?) %>
 
-  <h1 id="welcome-title"> Welcome, <%= current_user.username %>!</h1>
-
-	<div class="user-show"><%= link_to "See Your Stats", user_url(current_user) %></div>
-
+  <h1 id="welcome-title">
+		Welcome, <%= current_user.username %>!
+	</h1>
+	<div class="user-show">
+		<%= link_to "See Your Stats", user_url(current_user) %>
+	</div>
 	<div class="race"><a href="#heats/new">Race Now!</a></div>
 
 <% else %>
+	<div class="row">
+	  <div class="col-md-5">
+			<h2 id="sign_in">
+				Sign In
+			</h2>
+			<%= render "shared/login", user: User.new, url: session_url %>
 
-	<h1 id="sign_in">Sign In</h1>
+			<h2 id="sign_up">
+				Sign Up
+			</h2>
+			<%= render "shared/login", user: User.new, url: users_url %>
+		</div>
 
-	<%= render "shared/login", user: User.new, url: session_url %>
-
-	or
-
-	<h1 id="sign_up">Sign Up</h1>
-
-	<%= render "shared/login", user: User.new, url: users_url %>
-
-
-	<button>Sign In As Guest</button>
+	  <div class="col-md-5">
+			<a href="/#highscores" class="btn btn-danger btn-large guest-btn" role="button">
+				Race As A Guest
+			</a>
+		</div>
+	</div>
 
 <% end %>

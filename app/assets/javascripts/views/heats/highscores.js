@@ -17,7 +17,7 @@ window.TypeRacer.Views.HeatHighScores = Backbone.CompositeView.extend({
 
 	modalUser: function(target) {
 		var user = TypeRacer.Users.where({
-			username: $(event.target).html()
+			username: $(event.target).parent().data("racer")
 		})[0];
 		var content = this.modalTemplate({ user: user })
 		this.$el.find(".user-modal").html(content);
@@ -27,7 +27,8 @@ window.TypeRacer.Views.HeatHighScores = Backbone.CompositeView.extend({
 	render: function(list) {
 		var content = this.template({
 			list: list,
-			heat_stat: this.model
+			heat_stat: this.model,
+			race: this.race
 		})
 		this.$el.html(content)
 		return this;
