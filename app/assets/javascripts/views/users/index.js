@@ -3,9 +3,10 @@ window.TypeRacer.Views.UsersIndex = Backbone.View.extend({
 	modalTemplate: JST["users/modal"],
 	className: "race-board col-md-12",
 
-	render: function(list, category) {
+	render: function(category) {
+		debugger
 		var content = this.template({
-			list: list,
+			list: this.model.get(category).slice(0,10),
 			category: category
 		})
 		this.$el.html(content);
@@ -26,7 +27,7 @@ window.TypeRacer.Views.UsersIndex = Backbone.View.extend({
 	},
 
 	modalUser: function(target) {
-		var user = TypeRacer.Users.where({
+		var user = TypeRacer.RacerStats.where({
 			username: $(event.target).parent().data("racer")
 		})[0];
 		var content = this.modalTemplate({ user: user })
@@ -35,23 +36,15 @@ window.TypeRacer.Views.UsersIndex = Backbone.View.extend({
 	},
 
 	showMostRaces: function() {
-		return this.sortScores("races");
+		return this.render("most_races");
 	},
 
 	showRecentRecords: function() {
-    return this.sortScores("recent_wpm_avg");
+    return this.render("recent_wpm_avg");
 	},
 
 	showSpeedRecords: function() {
-		return this.sortScores("wpm_avg");
-	},
-
-	sortScores: function(stat) {
-		var content = this.collection.sortBy(function(user) {
-			return user.get(stat)
-		}).reverse().slice(0,10);
-		this.render(content, stat)
-		return this;
+		return this.render("wpm_avg");
 	}
 });
 

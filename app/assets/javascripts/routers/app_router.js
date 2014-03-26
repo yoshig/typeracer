@@ -33,16 +33,23 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	userShow: function(id) {
-		var userView = new TypeRacer.Views.UserShow({
-			model: TypeRacer.Users.get(id)
-		});
-		this._swapView(userView);
+		var that = this;
+		var user = new TypeRacer.Models.User({ id: id });
+		user.fetch({
+			success: function() {
+				var userView = new TypeRacer.Views.UserShow({
+					model: user
+				});
+				that._swapView(userView);
+			}
+		})
+
 	},
 
 	_bestScoresView: function() {
 		var that = this;
 		var everyPageScores = new TypeRacer.Views.UsersIndex ({
-			collection: TypeRacer.Users
+			model: TypeRacer.RacerStats
 		});
 		that.$rootEl.append(everyPageScores.showSpeedRecords().$el);
 	},

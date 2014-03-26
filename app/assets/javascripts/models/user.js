@@ -1,1 +1,3 @@
-window.TypeRacer.Models.User = Backbone.Model.extend({})
+window.TypeRacer.Models.User = Backbone.Model.extend({
+	urlRoot: "/users"
+});

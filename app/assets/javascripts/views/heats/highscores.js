@@ -5,8 +5,8 @@ window.TypeRacer.Views.HeatHighScores = Backbone.CompositeView.extend({
 	className: "alltime-highscores col-md-12",
 
 	initialize: function(options) {
+		debugger
 		this.race = options.race;
-		this.racerStats = this.race.get("racerStats");
 	},
 
 	events: {
@@ -16,7 +16,8 @@ window.TypeRacer.Views.HeatHighScores = Backbone.CompositeView.extend({
 	},
 
 	modalUser: function(target) {
-		var user = TypeRacer.Users.where({
+		debugger
+		var user = TypeRacer.RacerStats.where({
 			username: $(event.target).parent().data("racer")
 		})[0];
 		var content = this.modalTemplate({ user: user })
@@ -35,7 +36,6 @@ window.TypeRacer.Views.HeatHighScores = Backbone.CompositeView.extend({
 	},
 
 	showAllTimeHighs: function() {
-		debugger
 		var content = this.sortScores(this.racerStats)
 		this.render(content);
 		return this;

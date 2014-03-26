@@ -59,7 +59,6 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 
 		race.fetch({
 			success: function() {
-				debugger
 				var highScoresView = new TypeRacer.Views.HeatHighScores({
 					race: race,
 					model: model

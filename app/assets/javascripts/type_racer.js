@@ -8,8 +8,8 @@ window.TypeRacer = {
 		TypeRacer.Heats = new TypeRacer.Collections.Heats();
 		TypeRacer.Heats.fetch({
 			success: function() {
-				TypeRacer.Users = new TypeRacer.Collections.Users();
-				TypeRacer.Users.fetch({
+				TypeRacer.RacerStats = new TypeRacer.Models.RacerStat();
+				TypeRacer.RacerStats.fetch({
 					success: function() {
 						new TypeRacer.Routers.AppRouter({
 							$rootEl: $("#content"),

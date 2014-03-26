@@ -19,10 +19,11 @@
 					</th>
 				</tr>
 				<% _.each(list, function(score, i) { %>
-					<tr class="hof-user" data-racer="<%- score.escape("username") %>">
+					<% debugger %>
+					<tr class="hof-user" data-racer="<%- score.user_id %>">
 						<td><%= i + 1 %></td>
-						<td><%= score.escape("username") %></td>
-						<td><%- score.escape(category) %> wpm</td>
+						<td><%= score.user_id %></td>
+						<td><%- score.id %></td>
 					</th>
 				<% }) %>
 			</table>
