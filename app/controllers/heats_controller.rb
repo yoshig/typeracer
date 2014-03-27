@@ -1,6 +1,6 @@
 class HeatsController < ApplicationController
   def add_car
-    Pusher["game_lobby"].trigger('addCar', car_params)
+    Pusher[params[:sendTo]].trigger('addCar', car_params)
     head :ok
   end
 
@@ -24,7 +24,7 @@ class HeatsController < ApplicationController
   end
 
   def start_game
-    Pusher["game_lobby"].trigger('initiateCountDown', start_heat_params)
+    Pusher[params[:sendTo]].trigger('initiateCountDown', start_heat_params)
     head :ok
   end
 
@@ -45,7 +45,8 @@ class HeatsController < ApplicationController
                   :progress,
                   :racer_img,
                   :wpm,
-                  :channel)
+                  :channel,
+                  :sendTo)
   end
 
   def start_heat_params

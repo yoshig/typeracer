@@ -5,12 +5,8 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 
 	className: "race-board col-md-12",
 
-	initialize: function() {
-		var that = this
-		this.channel = TypeRacer.pusher.subscribe('game_lobby');
-    this.channel.bind('initiateCountDown', function(data) {
-			return that.initiateCountDown(data)
-		});
+	initialize: function(options) {
+		var that = this;
 
 		this.words = this.model.get("text").split(" ");
 
@@ -20,7 +16,7 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 						user_name: $("#current_user").data("name")
 			})
 		);
-		this.addTrackView(this.track);
+		this.setupDifferentGames(options.gameType);
 	},
 
 	render: function() {
@@ -34,6 +30,23 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 		"click .start-new-game": "startNewGame",
 	},
 
+	setupDifferentGames: function(type) {
+		if (type == "practice") {
+			this.gameChannel = $("#current_user").data("id")
+			this.addBoard();
+			this.addTrackView("practice");
+		} else {
+			var subscription = type == "normal" ? "game_lobby" : type
+			var that = this;
+			this.channel = TypeRacer.pusher.subscribe(subscription);
+	    this.channel.bind('initiateCountDown', function(data) {
+				return that.initiateCountDown(data)
+			});
+			this.addTrackView(type);
+			if (type != "normal") { this.renderChatBox(); };
+		}
+	},
+
 	addBoard: function() {
 		this.boardView = new TypeRacer.Views.BoardNew({
 			model: this.track,
@@ -44,10 +57,11 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 		this.boardView.render();
 	},
 
-	addTrackView: function(track) {
+	addTrackView: function(gameType) {
 		this.raceTrack = new TypeRacer.Views.Track({
 			model: this.track,
-			channel: this.channel
+			channel: this.channel,
+			gameType: gameType
 		});
 		this.addSubview("#race-track", this.raceTrack);
 	},
@@ -86,6 +100,6 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	startNewGame: function() {
 		console.log("startNew")
 		Backbone.history.navigate("#heats/gameover", { trigger: true } )
-	}
+	},
 })
 

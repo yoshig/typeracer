@@ -2,6 +2,10 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	template: JST["racer_stats/user_input"],
 
 	className: "race-board .col-md-12",
+	remove: function(){
+		clearInterval(this.gameCountDown);
+		Backbone.View.prototype.remove.apply(this);
+	},
 
 	initialize: function(options) {
 		var that = this;
@@ -14,7 +18,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		this.totalKeys = 0;
 		// timer is based on typing 30 wpm, if a word is average 5 letters, using deciseconds
 		this.words = this.model.collection.heat.get("text").split(" ");
-		this.totalTime = Math.floor(this.words.join().length * (2 / 5) * 10);
+		this.totalTime = 10000 //Math.floor(this.words.join().length * (2 / 5) * 10);
 	},
 
 	render: function() {
@@ -24,7 +28,8 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	},
 
 	events: {
-		"keyup.val .user-input": "handleInput"
+		"keypress.val .user-input": "handleInput",
+		"keyup.val .user-input": "handleBackspace"
 	},
 
 	lettersTyped: function() {
@@ -66,7 +71,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 
 	gameSetup: function() {
 		var that = this;
-		var countStart = 10;
+		var countStart = 7;
 		var startCountDown = setInterval(function() {
 			countStart--;
 			$("div#count-down").html(countStart)
@@ -81,17 +86,25 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		}, 1000);
 	},
 
-	handleInput: function(event) {
-		var $input = $(event.target);
-		var key = String.fromCharCode(event.keyCode);
+	handleBackspace: function(e) {
+		if (e.keyCode == 8) { this.handleInput(e) }
+	},
+
+	handleInput: function(e) {
+		console.log(e.keyCode)
+		if (e.keyCode == 13 || e.keyCode == 32) { e.preventDefault(); }
+		var $input = $(e.target);
+		var key = String.fromCharCode(e.keyCode);
 		if (/[a-zA-Z0-9-_]/.test(key)) {
 			this.totalKeys++
 		}
-		var userWord = $input.val();
+		var userWord = e.keyCode == 8
+		  ? $input.val().slice(0, $input.val().length - 1)
+		  : $input.val() + key;
 		var currentWord = this.words[this.counter] + " ";
-		if (currentWord === $input.val()) {
+		if (currentWord === userWord) {
 			this.handleWordEnd($input);
-		} else if ( currentWord.match("^" + $input.val()) ) {
+		} else if ( currentWord.match("^" + userWord) ) {
 			$input.css("background", "white").css("color", "black")
 		} else {
 			$input.css("background", "red").css("color", "white")

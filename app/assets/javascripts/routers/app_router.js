@@ -4,9 +4,12 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	routes: {
-		"heats/new": "heatNew",
+		"heats/new": "normalGame",
 		"heats/gameover": "heatDone",
-		"users/:id": "userShow"
+		"heats/practice": "practice",
+		"heats/:id": "customGame",
+		"users/:id": "userShow",
+		"highscores": "highscores"
 	},
 
 	heatDone: function() {
@@ -15,20 +18,21 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 		Backbone.history.navigate("#heats/new", { trigger: true } )
 	},
 
-	heatNew: function() {
-		var that = this;
-		var newHeat;
-		$.ajax({
-			url: "/heats/new",
-			type: "GET",
-			success: function(data) {
-				newHeat = new TypeRacer.Models.Heat(data);
-				var newHeatView = new TypeRacer.Views.NewHeat({
-					model: newHeat
-				})
-				that._swapView(newHeatView);
-			}
-		})
+	practice: function() {
+		this._heatNew("practice")
+	},
+
+	customGame: function(id) {
+		this._heatNew(id);
+	},
+
+	normalGame: function() {
+		this._heatNew("normal")
+	},
+
+	highscores: function() {
+		this.$rootEl.html("");
+		this._bestScoresView();
 	},
 
 	userShow: function(id) {
@@ -42,7 +46,6 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 				that._swapView(userView);
 			}
 		})
-
 	},
 
 	_bestScoresView: function() {
@@ -51,6 +54,23 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 			model: TypeRacer.RacerStats
 		});
 		that.$rootEl.append(everyPageScores.showSpeedRecords().$el);
+	},
+
+	_heatNew: function(gameType) {
+		var that = this;
+		var newHeat;
+		$.ajax({
+			url: "/heats/new",
+			type: "GET",
+			success: function(data) {
+				newHeat = new TypeRacer.Models.Heat(data);
+				var newHeatView = new TypeRacer.Views.NewHeat({
+					model: newHeat,
+					gameType: gameType
+				})
+				that._swapView(newHeatView);
+			}
+		})
 	},
 
 	_swapView: function(view) {

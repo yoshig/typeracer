@@ -1,5 +1,6 @@
 window.TypeRacer.Views.Track = Backbone.View.extend({
 	template: JST["heats/track"],
+	modalTemplate: JST["heats/share_modal"],
 	className: "raceTracks .col-md-6",
 
 	GIFS: [
@@ -23,19 +24,13 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 	],
 
 	initialize: function(options) {
+		this.gameType = options.gameType;
 		this.addImage();
-		var channel = options.channel;
-		var that = this;
 		this.racer_id = $("#current_user").data("id");
 
-		channel.bind('initiateCountDown', function(data) {
-			return that.setupGameChannel(data)
-		});
-		channel.bind('addCar', function(data) {
-			return that.addCar(data)
-		});
 		this.model.set("progress", 0);
 		this.sendCarData(false);
+		this.setupGameTypes(options);
 	},
 
 	addCar: function(data) {
@@ -52,6 +47,32 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		this.checkTotalPlayers();
 	},
 
+
+
+	setupGameTypes: function(options) {
+		if (options.gameType == "practice") {
+			this.setupGameChannel({
+				channel: $("#current_user").data("id")
+			})
+		} else {
+			var that = this;
+			var channel = options.channel;
+			channel.bind('initiateCountDown', function(data) {
+				return that.setupGameChannel(data)
+			});
+			channel.bind('addCar', function(data) {
+				return that.addCar(data)
+			});
+			if (this.gameType !== "normal") {this.showModal(); }
+		}
+	},
+
+	showModal: function() {
+		var content = this.modalTemplate({ path: this.gameType })
+		$('body').append(content);
+		$("#share-link").modal("show");
+	},
+
 	addImage: function() {
 		this.raceImg = this.model.img
 		  ||  this.GIFS[Math.floor(Math.random() * this.GIFS.length)];
@@ -59,13 +80,14 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 
 	checkTotalPlayers: function() {
 		var currentTotalRacers = this.$el.find(".racer").length;
-		if (currentTotalRacers >= 2) {
+		if (currentTotalRacers >= 2 || this.gameType == "practice") {
 			var gameChannel = this.gameChannel || Date.now().toString();
 			$.ajax({
 				url: "/heats/start_game",
 				type: "POST",
 				data: {
 					channel: gameChannel,
+					sendTo: this.gameType == "normal" ? "game_lobby" : this.gameType,
 					text: this.model.collection.heat.get("text"),
 					race_id: this.model.collection.heat.get("race_id")
 				}
@@ -100,6 +122,7 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		var racer = {
 					racer_id: this.racer_id,
 					racer_name: racer_name,
+					sendTo: this.gameType == "normal" ? "game_lobby" : this.gameType,
 					return_to: returnTo,
 					racer_img: this.raceImg,
 					progress: this.model.get("progress")

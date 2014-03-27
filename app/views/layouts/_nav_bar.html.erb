@@ -20,8 +20,19 @@
 			<%= link_to "Sign up", new_user_url %>
 		</li>
 	<% end %>
+	<li class ="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			Race Now!
+			<b class="caret"></b>
+		</a>
+		<ul class="dropdown-menu">
+			<li><a href="/#heats/new">Enter a Race</a></li>
+			<li><a href="/#heats/practice">Practice</a></li>
+			<li><a href="/#heats/<%= SecureRandom.urlsafe_base64 %>">Play With Friends</a></li>
+		</ul>
+	</li>
 	<li>
-		<a href="/#heats/new">Race</a>
+		<a href="/#highscores">Hall of Fame</a>
 	</li>
 </ul>
 
