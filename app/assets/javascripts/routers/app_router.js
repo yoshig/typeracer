@@ -4,18 +4,28 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	routes: {
-		"heats/new": "normalGame",
-		"heats/gameover": "heatDone",
+		"heats/normal": "normalGame",
+		"heats/new_normal": "newNormal",
+		"heats/new_practice": "newPractice",
+		"heats/new_friend": "newFriend",
 		"heats/practice": "practice",
 		"heats/:id": "customGame",
 		"users/:id": "userShow",
 		"highscores": "highscores"
 	},
 
-	heatDone: function() {
+	newNormal: function() {
 		// Cannot navigate to page where you are already.
 		// Used to navigate away and back to a new game.
-		Backbone.history.navigate("#heats/new", { trigger: true } )
+		Backbone.history.navigate("#heats/normal", { trigger: true } )
+	},
+
+	newFriend: function() {
+		Backbone.history.navigate("#heats/" + Math.random().toString(36).slice(2), { trigger: true } )
+	},
+
+	newPractice: function() {
+		Backbone.history.navigate("#heats/practice", { trigger: true } )
 	},
 
 	practice: function() {

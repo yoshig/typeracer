@@ -18,7 +18,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		this.totalKeys = 0;
 		// timer is based on typing 30 wpm, if a word is average 5 letters, using deciseconds
 		this.words = this.model.collection.heat.get("text").split(" ");
-		this.totalTime = 10000 //Math.floor(this.words.join().length * (2 / 5) * 10);
+		this.totalTime = Math.floor(this.words.join().length * (2 / 5) * 10);
 	},
 
 	render: function() {
@@ -71,13 +71,14 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 
 	gameSetup: function() {
 		var that = this;
-		var countStart = 7;
+		var countStart = Math.floor((parseInt(this.gameChannel) - Date.now()) / 1000)
+		  || 5;
 		var startCountDown = setInterval(function() {
 			countStart--;
 			$("div#count-down").html(countStart)
 			if (countStart === 5) {
 				TypeRacer.pusher.unsubscribe("game_lobby")
-			} else if (countStart === 0) {
+			} else if (countStart <= 0) {
 				clearInterval(startCountDown);
 				that.setBoard();
 				that.runTimer();

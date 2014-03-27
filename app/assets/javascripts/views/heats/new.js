@@ -43,7 +43,6 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 				return that.initiateCountDown(data)
 			});
 			this.addTrackView(type);
-			if (type != "normal") { this.renderChatBox(); };
 		}
 	},
 

@@ -59,3 +59,5 @@ gem 'pusher'
 gem 'figaro'
 gem 'nokogiri'
 gem 'faker'
+
+gem 'rails_12factor', group: :production

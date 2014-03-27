@@ -47,32 +47,6 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		this.checkTotalPlayers();
 	},
 
-
-
-	setupGameTypes: function(options) {
-		if (options.gameType == "practice") {
-			this.setupGameChannel({
-				channel: $("#current_user").data("id")
-			})
-		} else {
-			var that = this;
-			var channel = options.channel;
-			channel.bind('initiateCountDown', function(data) {
-				return that.setupGameChannel(data)
-			});
-			channel.bind('addCar', function(data) {
-				return that.addCar(data)
-			});
-			if (this.gameType !== "normal") {this.showModal(); }
-		}
-	},
-
-	showModal: function() {
-		var content = this.modalTemplate({ path: this.gameType })
-		$('body').append(content);
-		$("#share-link").modal("show");
-	},
-
 	addImage: function() {
 		this.raceImg = this.model.img
 		  ||  this.GIFS[Math.floor(Math.random() * this.GIFS.length)];
@@ -81,7 +55,7 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 	checkTotalPlayers: function() {
 		var currentTotalRacers = this.$el.find(".racer").length;
 		if (currentTotalRacers >= 2 || this.gameType == "practice") {
-			var gameChannel = this.gameChannel || Date.now().toString();
+			var gameChannel = this.gameChannel || (Date.now() + 15000).toString();
 			$.ajax({
 				url: "/heats/start_game",
 				type: "POST",
@@ -137,6 +111,24 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		})
 	},
 
+	setupGameTypes: function(options) {
+		if (options.gameType == "practice") {
+			this.setupGameChannel({
+				channel: $("#current_user").data("id")
+			})
+		} else {
+			var that = this;
+			var channel = options.channel;
+			channel.bind('initiateCountDown', function(data) {
+				return that.setupGameChannel(data)
+			});
+			channel.bind('addCar', function(data) {
+				return that.addCar(data)
+			});
+			if (this.gameType !== "normal") {this.showModal(); }
+		}
+	},
+
 	setupGameChannel: function(data) {
 		var that = this;
 		if (!this.gameChannel) {
@@ -145,5 +137,11 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 				if (data && data.racer_id) { return that.moveCar(data) }
 			});
 		}
-	}
+	},
+
+	showModal: function() {
+		var content = this.modalTemplate({ path: this.gameType })
+		$('body').append(content);
+		$("#share-link").modal("show");
+	},
 });
