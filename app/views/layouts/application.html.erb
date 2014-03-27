@@ -7,25 +7,22 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body role="document">
 	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="container">
-			<img class="navbar-brand" src="https://s3-us-west-1.amazonaws.com/typedasher/Logo_no_tagline.png" alt="TypeDasher" />
-		<%= render "layouts/nav_bar" %>
+			<a href="/"><img class="navbar-brand" src="https://s3-us-west-1.amazonaws.com/typedasher/white_label2.png" alt="TypeDasher" /></a>
+		  <%= render "layouts/nav_bar" %>
 		</div>
 	</div>
 
-<a href="/#heats/new">Start a new game</a>
-
-<% if flash.now[:errors] %>
-	<% flash.now[:errors].each do |error| %>
-		<%= error %>
-	<% end %>
-<% end %>
-
-<div class="jumbotron" id="content">
-	<%= yield %>
-</div>
+	<div class="container theme-showcase" role="main" id="content">
+		<% if flash.now[:errors] %>
+			<% flash.now[:errors].each do |error| %>
+				<%= error %>
+			<% end %>
+		<% end %>
+		<%= yield %>
+	</div>
 
 </body>
 </html>

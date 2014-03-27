@@ -4,6 +4,7 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	routes: {
+		"/": "index",
 		"heats/normal": "normalGame",
 		"heats/new_normal": "newNormal",
 		"heats/new_practice": "newPractice",
@@ -12,6 +13,13 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 		"heats/:id": "customGame",
 		"users/:id": "userShow",
 		"highscores": "highscores"
+	},
+
+	index: function() {
+		var indexView = new TypeRacer.Views.IndexView ({
+
+		});
+		this._swapView(indexView);
 	},
 
 	newNormal: function() {
@@ -29,6 +37,7 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	practice: function() {
+		console.log("newPractice");
 		this._heatNew("practice")
 	},
 

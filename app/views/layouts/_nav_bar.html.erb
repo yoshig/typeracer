@@ -12,7 +12,7 @@
 		<div id="current_user"
 		  	 data-name="Guest"
 		     data-id="<%= session[:token] ||= SecureRandom.base64 %>">
-		 </div>
+		</div>
     <li>
 		  <%= link_to "Sign in", new_session_url %>
 		</li>
@@ -63,6 +63,6 @@
 				<li>Average Speed: <%= session_wpm %></li>
 				<li>Races Completed: <%= session_races %></li>
 			<% end %>
-			</ul>
-		</li>
+		</ul>
+	</li>
 </ul>

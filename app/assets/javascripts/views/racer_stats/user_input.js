@@ -2,7 +2,10 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	template: JST["racer_stats/user_input"],
 
 	className: "race-board .col-md-12",
+
 	remove: function(){
+		console.log("problem")
+		clearInterval(this.gameTimer);
 		clearInterval(this.gameCountDown);
 		Backbone.View.prototype.remove.apply(this);
 	},
@@ -52,7 +55,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	},
 
 	endGame: function(time) {
-		clearInterval(this.gameCountDown);
+		clearInterval(this.gameTimer);
 		var attrs = {
 			wpm: Math.round(this.calculateWPM() * 100) / 100,
 			wpm_percentile: Math.round((this.lettersTyped() / this.totalKeys) * 10000) / 100,
@@ -73,13 +76,13 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		var that = this;
 		var countStart = Math.floor((parseInt(this.gameChannel) - Date.now()) / 1000)
 		  || 5;
-		var startCountDown = setInterval(function() {
+		this.gameCountDown = setInterval(function() {
 			countStart--;
 			$("div#count-down").html(countStart)
-			if (countStart === 5) {
+			if (countStart >= 5) {
 				TypeRacer.pusher.unsubscribe("game_lobby")
 			} else if (countStart <= 0) {
-				clearInterval(startCountDown);
+				clearInterval(that.gameCountDown);
 				that.setBoard();
 				that.runTimer();
 				$("div#count-down").remove();
@@ -129,12 +132,12 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	runTimer: function() {
 		var that = this;
 		this.timer = this.totalTime;
-		this.gameCountDown = setInterval(function() {
+		this.gameTimer = setInterval(function() {
 			that.timer--
 			$("div#game-timer").html(that.showTime(that.timer))
 
 			if (that.timer <= 0) {
-				clearInterval(that.gameCountDown);
+				clearInterval(that.gameTimer);
 				$("div#game-timer").html("00:0")
 				that.endGame(NaN);
 			}
