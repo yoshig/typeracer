@@ -4,12 +4,12 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 	className: "raceTracks .col-md-6",
 
 	GIFS: [
-    "crash.gif",
-	  "megaman.gif",
-		"samus.gif",
-		"sonic.gif",
-		"yoshi.gif",
-		"kirby.gif"
+    "https://s3-us-west-1.amazonaws.com/typedasher/crash.gif",
+	  "https://s3-us-west-1.amazonaws.com/typedasher/kirby.gif",
+		"https://s3-us-west-1.amazonaws.com/typedasher/megaman.gif",
+		"https://s3-us-west-1.amazonaws.com/typedasher/samus.gif",
+		"https://s3-us-west-1.amazonaws.com/typedasher/sonic.gif",
+		"https://s3-us-west-1.amazonaws.com/typedasher/yoshi.gif"
 	],
 
 	PLACES: [
