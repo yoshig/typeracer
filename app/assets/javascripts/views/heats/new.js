@@ -97,7 +97,6 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	},
 
 	startNewGame: function() {
-		console.log("startNew")
 		Backbone.history.navigate("#heats/gameover", { trigger: true } )
 	},
 })

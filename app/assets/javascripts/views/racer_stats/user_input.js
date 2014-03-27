@@ -92,7 +92,6 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	},
 
 	handleInput: function(e) {
-		console.log(e.keyCode)
 		if (e.keyCode == 13 || e.keyCode == 32) { e.preventDefault(); }
 		var $input = $(e.target);
 		var key = String.fromCharCode(e.keyCode);
