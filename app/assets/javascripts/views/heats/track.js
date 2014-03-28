@@ -29,11 +29,11 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		this.racer_id = $("#current_user").data("id");
 
 		this.model.set("progress", 0);
-		this.sendCarData(false);
 		this.setupGameTypes(options);
 	},
 
 	addCar: function(data) {
+		if (data.channel) { this.setupGameChannel(data) }
 		var content = this.template({
 			racer: data
 		});
@@ -44,7 +44,7 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 				: this.$el.append(content);
 		}
 		this.moveCar(data);
-		this.checkTotalPlayers();
+		if (!data.channel) { this.checkTotalPlayers(); }
 	},
 
 	addImage: function() {
@@ -55,12 +55,18 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 	checkTotalPlayers: function() {
 		var currentTotalRacers = this.$el.find(".racer").length;
 		if (currentTotalRacers >= 2 || this.gameType == "practice") {
-			var gameChannel = this.gameChannel || (Date.now() + 15000).toString();
+			if (this.gameChannel) {
+				var gameChannel = this.gameChannel.name
+			} else {
+				var gameChannel = (Date.now() + 15000).toString();
+			}
+			console.log("starting")
 			$.ajax({
 				url: "/heats/start_game",
 				type: "POST",
 				data: {
 					channel: gameChannel,
+					timer: parseInt(gameChannel) - Date.now(),
 					sendTo: this.gameType == "normal" ? "game_lobby" : this.gameType,
 					text: this.model.collection.heat.get("text"),
 					race_id: this.model.collection.heat.get("race_id")
@@ -101,11 +107,15 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 					racer_img: this.raceImg,
 					progress: this.model.get("progress")
 			  }
+    if (this.gameChannel) {
+    	racer["channel"] = this.gameChannel.name;
+    }
 		$.ajax({
 			url: "/heats/add_car",
 			type: "POST",
 			data: racer,
 			success: function() {
+				console.log("IN SUCCESS")
 				that.addCar(racer);
 			}
 		})
@@ -113,6 +123,7 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 
 	setupGameTypes: function(options) {
 		if (options.gameType == "practice") {
+			this.sendCarData(false);
 			this.setupGameChannel({
 				channel: $("#current_user").data("id")
 			})
@@ -125,6 +136,7 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 			channel.bind('addCar', function(data) {
 				return that.addCar(data)
 			});
+			this.sendCarData(false);
 			if (this.gameType !== "normal") {this.showModal(); }
 		}
 	},
@@ -133,8 +145,6 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		var that = this;
 		if (!this.gameChannel) {
 			this.gameChannel = TypeRacer.pusher.subscribe(data.channel);
-			TypeRacer.pusher.channels.find("game_lobby") &&
-			  TypeRacer.pusher.unsubscribe("game_lobby")
 	    this.gameChannel.bind('updateBoard', function(data) {
 				if (data && data.racer_id) { return that.moveCar(data) }
 			});

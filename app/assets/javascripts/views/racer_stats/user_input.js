@@ -12,7 +12,8 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	initialize: function(options) {
 		var that = this;
 		this.gameChannel = options.channel;
-		this.countStart = options.timer;
+		console.log(options.timer)
+		this.countStart = Math.round(options.timer / 1000);
 		// Wait until all players are in the room before starting the timer and allowing typing in box
 		this.gameSetup();
 
@@ -77,6 +78,10 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		this.gameCountDown = setInterval(function() {
 			that.countStart--;
 			$("#count-down").html(that.countStart)
+			if (that.countStart <= 5) {
+				TypeRacer.pusher.channels.find("game_lobby") &&
+			  TypeRacer.pusher.unsubscribe("game_lobby")
+			}
 			if (that.countStart <= 0) {
 				clearInterval(that.gameCountDown);
 				that.setBoard();

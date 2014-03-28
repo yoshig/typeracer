@@ -50,6 +50,6 @@ class HeatsController < ApplicationController
   end
 
   def start_heat_params
-    params.permit(:channel, :race_id, :text)
+    params.permit(:channel, :race_id, :text, :timer)
   end
 end
