@@ -133,6 +133,8 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 		var that = this;
 		if (!this.gameChannel) {
 			this.gameChannel = TypeRacer.pusher.subscribe(data.channel);
+			TypeRacer.pusher.channels.find("game_lobby") &&
+			  TypeRacer.pusher.unsubscribe("game_lobby")
 	    this.gameChannel.bind('updateBoard', function(data) {
 				if (data && data.racer_id) { return that.moveCar(data) }
 			});

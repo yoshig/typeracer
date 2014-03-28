@@ -34,7 +34,8 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	setupDifferentGames: function(type) {
 		if (type == "practice") {
 			this.gameChannel = $("#current_user").data("id")
-			this.addBoard();
+			this.channel = TypeRacer.pusher.subscribe(this.gameChannel.toString());
+			this.addBoard(4);
 			this.addTrackView("practice");
 		} else {
 			var subscription = type == "normal" ? "game_lobby" : type
@@ -47,11 +48,12 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 		}
 	},
 
-	addBoard: function() {
+	addBoard: function(timer) {
 		this.boardView = new TypeRacer.Views.BoardNew({
 			model: this.track,
 			parent: this,
-			channel: this.gameChannel
+			channel: this.gameChannel,
+			timer: timer
 		});
 		this.addSubview("#game-board", this.boardView);
 		this.boardView.render();
@@ -74,7 +76,7 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 				text: data.text,
 				race_id: data.race_id
 			})
-			this.addBoard();
+			this.addBoard(5);
 		}
 	},
 

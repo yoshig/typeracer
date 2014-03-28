@@ -16,6 +16,7 @@ window.TypeRacer.Views.Splash = Backbone.View.extend({
 	},
 
 	animateIn: function() {
+		console.log("waht")
 		setTimeout(function() {
 			setTimeout(function() {
 				$(".splash-option").fadeIn()
