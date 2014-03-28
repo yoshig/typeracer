@@ -42,9 +42,15 @@
 			<a href="/#users/<%= current_user.id %>">
 			<%= current_user.username %>
 		<% else %>
-			<a href="#">
-				Guest
-			</a>
+			<li class ="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					Guest
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li>You must be signed in to view more statistics!</li>
+				</ul>
+			</li>
 		<% end %>
 	  </a>
 	</li>
