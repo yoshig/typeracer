@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     if @user = User.find_by_credentials(params[:user][:username],
                                         params[:user][:password])
       login!
-      redirect_to user_url(@user)
+      redirect_to "/#heats/normal"
     else
       @user = User.new(username: params[:user][:username])
       flash.now[:errors] = ["Invalid credentials"]

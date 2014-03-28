@@ -4,7 +4,8 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	routes: {
-		"/": "index",
+		"": "index",
+		//"home": "home",
 		"heats/normal": "normalGame",
 		"heats/new_normal": "newNormal",
 		"heats/new_practice": "newPractice",
@@ -16,10 +17,8 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	index: function() {
-		var indexView = new TypeRacer.Views.IndexView ({
-
-		});
-		this._swapView(indexView);
+		var indexView = new TypeRacer.Views.Splash();
+		this._swapView(indexView).remove();
 	},
 
 	newNormal: function() {
@@ -73,6 +72,7 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 			model: TypeRacer.RacerStats
 		});
 		that.$rootEl.append(everyPageScores.showSpeedRecords().$el);
+		return everyPageScores;
 	},
 
 	_heatNew: function(gameType) {
@@ -96,6 +96,6 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 		this.currentView && this.currentView.remove();
 		this.currentView = view;
 		this.$rootEl.html(view.render().$el);
-		this._bestScoresView();
+		return this._bestScoresView();
 	}
 })

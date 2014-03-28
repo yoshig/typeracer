@@ -4,7 +4,39 @@
 
 .splash {
 	background: url('https://s3-us-west-1.amazonaws.com/typedasher/running_splash.jpg');
+	background-repeat: repeat-n;
 	background-size: 100%;
 	height: auto;
 	width: auto/9; /* ie8 */
+}
+
+.splash-option {
+		margin-top: 60px;
+}
+
+//.splash-option:first-of-type {
+//	margin-top: 0px;
+//}
+
+.guest-btn {
+	font-size: 40px;
+}
+
+.buttoning {
+	font-size: 30px;
+}
+
+.splash-heading {
+	font-size: 70px;
+	font-color: white;
+}
+
+.splash-background {
+	background: url('https://s3-us-west-1.amazonaws.com/typedasher/splash2.jpg');
+  background-size: 100%;
+	background-color: black;
+	background-position: 80px 80px;
+	background-repeat: no-repeat;
+  height: auto;
+  width: auto/9;
 }

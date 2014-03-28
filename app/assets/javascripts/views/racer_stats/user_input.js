@@ -4,7 +4,6 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	className: "race-board .col-md-12",
 
 	remove: function(){
-		console.log("problem")
 		clearInterval(this.gameTimer);
 		clearInterval(this.gameCountDown);
 		Backbone.View.prototype.remove.apply(this);
