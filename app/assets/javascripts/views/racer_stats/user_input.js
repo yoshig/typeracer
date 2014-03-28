@@ -24,8 +24,8 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	},
 
 	render: function() {
-		var content = this.template({ words: this.words })
-		this.$el.html(content)
+		var content = this.template({ words: this.words });
+		this.$el.html(content);
 		return this;
 	},
 
@@ -84,7 +84,6 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 				clearInterval(that.gameCountDown);
 				that.setBoard();
 				that.runTimer();
-				$("div#count-down").remove();
 			}
 		}, 1000);
 	},
@@ -107,8 +106,10 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		if (currentWord === userWord) {
 			this.handleWordEnd($input);
 		} else if ( currentWord.match("^" + userWord) ) {
+			$('#current-word').css("color", "green")
 			$input.css("background", "white").css("color", "black")
 		} else {
+			$('#current-word').css("color", "red")
 			$input.css("background", "red").css("color", "white")
 		}
 	},
@@ -133,18 +134,17 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		this.timer = this.totalTime;
 		this.gameTimer = setInterval(function() {
 			that.timer--
-			$("div#game-timer").html(that.showTime(that.timer))
+			$("div#count-down").html(that.showTime(that.timer))
 
 			if (that.timer <= 0) {
 				clearInterval(that.gameTimer);
-				$("div#game-timer").html("00:0")
+				$("div#count-down").html("00:0")
 				that.endGame(NaN);
 			}
 		}, 100);
 	},
 
 	setBoard: function() {
- 		$("div#count-down").remove();
   	this.inputField().removeAttr("placeholder disabled").focus();
  	},
 

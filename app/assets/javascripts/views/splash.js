@@ -10,7 +10,6 @@ window.TypeRacer.Views.Splash = Backbone.View.extend({
 	},
 
 	remove: function(){
-
 		$('body').removeClass("splash-background");
 		$('.navbar').removeClass("hidden");
 		Backbone.View.prototype.remove.apply(this);
@@ -18,7 +17,10 @@ window.TypeRacer.Views.Splash = Backbone.View.extend({
 
 	animateIn: function() {
 		setTimeout(function() {
-
-		}, 3000)
+			setTimeout(function() {
+				$(".splash-option").fadeIn()
+			}, 1000)
+			$(".splash-heading").fadeIn()
+		}, 1000)
 	}
 })

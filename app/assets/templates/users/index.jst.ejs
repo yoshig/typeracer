@@ -6,25 +6,31 @@
 				<span class="user-recent-wpm record-header">Recent Leaders  | </span>
 				<span class="user-total-races record-header">Total Races</span>
 			</div>
-			<table class="all-pages-show-scores table table-striped">
+			<table class="all-pages-show-scores table">
+				<% if (list.length !== 0) { %>
+					<tr>
+						<th>
+							#
+						</th>
+						<th>
+							User
+						</th>
+						<th>
+							<%= category == "races" ? "Total Races" : "WPM" %>
+						</th>
+					</tr>
+					<% _.each(list, function(racer, i) { %>
+						<tr class="hof-user" data-racer="<%= racer.user_id %>">
+							<td><%= i + 1 %></td>
+							<td><%- racer.username %></td>
+							<td><%= racer[category] %></td>
+						</th>
+					<% }) %>
+				<% } else { %>
 				<tr>
-					<th>
-						#
-					</th>
-					<th>
-						User
-					</th>
-					<th>
-						<%= category == "races" ? "Total Races" : "WPM" %>
-					</th>
+				No race data to display.
 				</tr>
-				<% _.each(list, function(racer, i) { %>
-					<tr class="hof-user" data-racer="<%= racer.user_id %>">
-						<td><%= i + 1 %></td>
-						<td><%- racer.username %></td>
-						<td><%= racer[category] %></td>
-					</th>
-				<% }) %>
+				<% } %>
 			</table>
 			</div>
 		</div>

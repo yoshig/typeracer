@@ -34,11 +34,11 @@
 				<span class="race-personal-scores">My Scores</span>
 			</div>
 
-			<table class="show-scores table table-striped	">
-				<tr>
-					<th>#</th><th>User</th><th>Speed</th>
-				</tr>
+			<table class="show-scores table">
 				<% if (list.length !== 0) { %>
+					<tr>
+						<th>#</th><th>User</th><th>Speed</th>
+					</tr>
 					<% list.forEach(function(score, i) { %>
 					<tr class="top-user" data-racer="<%- score.user_id %>">
 						<td><%= i + 1 %></td>

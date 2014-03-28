@@ -6,6 +6,7 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	className: "race-board col-md-12",
 
 	initialize: function(options) {
+		this.type = options.gameType;
 		var that = this;
 
 		this.words = this.model.get("text").split(" ");
@@ -97,7 +98,11 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	},
 
 	startNewGame: function() {
-		Backbone.history.navigate("#heats/gameover", { trigger: true } )
+		if (this.type == "normal" || this.type == "practice") {
+			Backbone.history.navigate("#heats/new_" + this.type, { trigger: true } )
+		} else {
+			Backbone.history.navigate("#heats/new_friend", { trigger: true } )
+		}
 	},
 })
 

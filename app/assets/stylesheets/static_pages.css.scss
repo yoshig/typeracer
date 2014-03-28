@@ -12,6 +12,7 @@
 
 .splash-option {
 		margin-top: 60px;
+		display: none;
 }
 
 //.splash-option:first-of-type {
@@ -27,8 +28,11 @@
 }
 
 .splash-heading {
+	display: none;
 	font-size: 70px;
-	font-color: white;
+	color: lightblue;
+	font-style: italic;
+	font-style: bold;
 }
 
 .splash-background {
