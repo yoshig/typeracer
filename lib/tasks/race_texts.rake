@@ -5,7 +5,7 @@ task get_race_texts: :environment do
   n = 1;
   done_text = "Sorry, that text isn't yet in the system."
 
-  until out_of_texts
+  until out_of_texts || n > 100
     p "Reading text #{n}"
     parsed = Nokogiri::HTML(open("http://www.seanwrona.com/typeracer/text.php?id=#{n}"))
 
