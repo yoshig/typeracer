@@ -39,4 +39,8 @@ describe User do
      before { @user.save }
      its(:session_token) { should_not be_blank }
    end
+
+   describe "association" do
+      it { should respond_to(:racer_stats) }
+   end
 end

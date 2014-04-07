@@ -19,4 +19,10 @@ describe Race do
   subject { @race }
   it { should respond_to(:passage) }
   it { should respond_to(:source) }
+  it { should be_valid }
+  
+  describe "associations" do
+    it { should respond_to(:heats) }
+    it { should respond_to(:racer_stats) }
+  end
 end

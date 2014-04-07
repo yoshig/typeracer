@@ -13,6 +13,9 @@
 
 class RacerStat < ActiveRecord::Base
   validates :heat_id, :user_id, :wpm, :wpm_percentile, presence: true
+  validates_numericality_of :wpm, :wpm_percentile, greater_than_or_equal_to: 0
+  validates_numericality_of :wpm_percentile, less_than_or_equal_to: 100
+
   belongs_to :heat
   belongs_to :user
   has_one :race, through: :heat

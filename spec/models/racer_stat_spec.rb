@@ -28,24 +28,34 @@ describe RacerStat do
   it { should respond_to(:wpm_percentile) }
 
   describe "testing validations" do
-    describe "heat_id" do
+    describe "heat_id nil" do
       before { @stat.heat_id = nil }
       it { should_not be_valid }
     end
 
-    describe "user_id" do
+    describe "user_id nil" do
       before { @stat.user_id = nil }
       it { should_not be_valid }
     end
 
-    describe "wpm" do
+    describe "wpm nil" do
       before { @stat.wpm = nil }
       it { should_not be_valid }
     end
 
-    describe "wpm_percentile" do
+    describe "wpm below 0" do
+      before { @stat.wpm = -1 }
+      it { should_not be_valid }
+    end
+
+    describe "wpm_percentile nil" do
       before { @stat.wpm_percentile = nil }
       it { should_not be_valid }
     end
-  end 
+
+    describe "wpm_percentile above 100" do
+      before { @stat.wpm_percentile = 101 }
+      it { should_not be_valid }
+    end
+  end
 end

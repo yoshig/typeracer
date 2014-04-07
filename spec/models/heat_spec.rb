@@ -11,5 +11,13 @@
 require 'spec_helper'
 
 describe Heat do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before do 
+    @heat = Heat.new(race_id: 1)
+  end
+
+  subject { @heat }
+
+  it { should be_valid }
+  it { should respond_to(:race) }
+  it { should respond_to(:racer_stats) }
 end
