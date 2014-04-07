@@ -28,7 +28,6 @@ Backbone.CompositeView = Backbone.View.extend({
 	},
 
 	remove: function() {
-		TypeRacer.pusher = new Pusher('3ee21fe7259f11d2384c');
 		Backbone.View.prototype.remove.call(this);
 
 		_(this.subviews()).each(function (selectorSubviews, selector) {

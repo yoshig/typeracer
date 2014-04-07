@@ -6,6 +6,7 @@
 #  passage    :text
 #  created_at :datetime
 #  updated_at :datetime
+#  source     :string(255)      not null
 #
 
 class Race < ActiveRecord::Base

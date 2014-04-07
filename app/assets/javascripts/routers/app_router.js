@@ -41,11 +41,19 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	customGame: function(id) {
-		this._heatNew(id);
+		TypeRacer.pusher.disconnect()
+		TypeRacer.pusher.connection.bind('disconnected', function() {
+			TypeRacer.pusher = new Pusher('3ee21fe7259f11d2384c');
+			this._heatNew(id);
+		})
 	},
 
 	normalGame: function() {
-		this._heatNew("normal")
+		var that = this
+		TypeRacer.pusher = new Pusher('3ee21fe7259f11d2384c');
+		TypeRacer.pusher.connection.bind('connected', function() {
+			that._heatNew("normal")
+		})
 	},
 
 	highscores: function() {
