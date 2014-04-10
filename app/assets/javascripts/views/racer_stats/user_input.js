@@ -92,17 +92,17 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	},
 
 	handleBackspace: function(e) {
-		if (e.keyCode == 8) { this.handleInput(e) }
+		if (e.which == 8) { this.handleInput(e) }
 	},
 
 	handleInput: function(e) {
-		if (e.keyCode == 13 || e.keyCode == 32) { e.preventDefault(); }
+		if (e.which == 13 || e.which == 32) { e.preventDefault(); }
 		var $input = $(e.target);
-		var key = String.fromCharCode(e.keyCode);
+		var key = String.fromCharCode(e.which);
 		if (/[a-zA-Z0-9-_]/.test(key)) {
 			this.totalKeys++
 		}
-		var userWord = e.keyCode == 8
+		var userWord = e.which == 8
 		  ? $input.val().slice(0, $input.val().length - 1)
 		  : $input.val() + key;
 		var currentWord = this.words[this.counter] + " ";
