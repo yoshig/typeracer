@@ -34,7 +34,7 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 	setupDifferentGames: function(type) {
 		if (type == "practice") {
 			var carId = $("#current_user").data("id")
-			this.gameChannel = carId.toString().replace(/[^a-zA-Z0-9]+/g, "-")
+			this.gameChannel = carId.toString().replace(/[^a-zA-Z0-9]+/g, "")
 			this.channel = TypeRacer.pusher.subscribe(this.gameChannel);
 			this.addBoard(4000);
 			this.addTrackView("practice");

@@ -126,7 +126,7 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 			this.sendCarData(false);
 			var carId = $("#current_user").data("id")
 			this.setupGameChannel({
-				channel: carId.toString().replace(/[^a-zA-Z0-9]+/g, "-")
+				channel: carId.toString().replace(/[^a-zA-Z0-9]+/g, "")
 			})
 		} else {
 			var that = this;
