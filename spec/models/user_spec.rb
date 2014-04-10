@@ -35,12 +35,12 @@ describe User do
     it { should_not be_valid }
   end
 
-   describe "session token" do
+  describe "session token" do
      before { @user.save }
      its(:session_token) { should_not be_blank }
-   end
+  end
 
-   describe "association" do
+  describe "association" do
       it { should respond_to(:racer_stats) }
-   end
+  end
 end

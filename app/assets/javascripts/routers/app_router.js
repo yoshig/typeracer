@@ -36,7 +36,6 @@ window.TypeRacer.Routers.AppRouter = Backbone.Router.extend({
 	},
 
 	practice: function() {
-		console.log("newPractice");
 		this._heatNew("practice")
 	},
 
