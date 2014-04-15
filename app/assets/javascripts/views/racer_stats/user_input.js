@@ -47,7 +47,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		return ((letters / 5) / minutes);
 	},
 
-	changeWordColor: function() {
+	changePassageColor: function() {
 		var wordsBeg = this.words.slice(0, this.counter).join(" ");
 		var greenWord = ' <span id="current-word">' + this.words[this.counter] + "</span> "
 		var wordsEnd = this.words.slice(this.counter + 1, this.words.length).join(" ")
@@ -96,28 +96,35 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 	},
 
 	handleInput: function(e) {
-		if (e.which == 13 || e.which == 32) { e.preventDefault(); }
+		if (e.which == 13) { e.preventDefault(); }
 		var $input = $(e.target);
 		var key = String.fromCharCode(e.which);
 		if (/[a-zA-Z0-9-_]/.test(key)) {
 			this.totalKeys++
 		}
 		var userWord = e.which == 8
-		  ? $input.val().slice(0, $input.val().length - 1)
-		  : $input.val() + key;
-		var currentWord = this.words[this.counter] + " ";
+			? $input.val().slice(0, $input.val().length - 1)
+			: $input.val() + key;
+		var currentWord = this.counter + 1 == this.words.length
+		    ? this.words[this.counter]
+		    : this.words[this.counter] + " ";
+		console.log(currentWord)
+		console.log(userWord)
 		if (currentWord === userWord) {
-			this.handleWordEnd($input);
-		} else if ( currentWord.match("^" + userWord) ) {
-			$('#current-word').css("color", "green")
-			$input.css("background", "white").css("color", "black")
+			this.handleWordEnd($input, e);
 		} else {
-			$('#current-word').css("color", "red")
-			$input.css("background", "red").css("color", "white")
+	  		if ( currentWord.match("^" + userWord) ) {
+				$('#current-word').css("color", "green")
+				$input.css("background", "white").css("color", "black")
+			} else {
+				$('#current-word').css("color", "red")
+				$input.css("background", "red").css("color", "white")
+			}
 		}
 	},
 
-	handleWordEnd: function(input) {
+	handleWordEnd: function(input, e) {
+		e.preventDefault();
 		this.counter++;
 		this.model.progress = this.counter / this.words.length;
 		this.model.set("progress", this.model.progress)
@@ -126,7 +133,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		if (this.counter == this.words.length) {
 			this.endGame(this.timer);
 		} else {
-			this.changeWordColor();
+			this.changePassageColor();
 		}
 	},
 
