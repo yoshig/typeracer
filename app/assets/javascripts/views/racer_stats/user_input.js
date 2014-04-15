@@ -111,7 +111,8 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		console.log(currentWord)
 		console.log(userWord)
 		if (currentWord === userWord) {
-			this.handleWordEnd($input, e);
+			e.preventDefault();
+			this.handleWordEnd($input);
 		} else {
 	  		if ( currentWord.match("^" + userWord) ) {
 				$('#current-word').css("color", "green")
@@ -123,8 +124,7 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 		}
 	},
 
-	handleWordEnd: function(input, e) {
-		e.preventDefault();
+	handleWordEnd: function(input) {
 		this.counter++;
 		this.model.progress = this.counter / this.words.length;
 		this.model.set("progress", this.model.progress)
