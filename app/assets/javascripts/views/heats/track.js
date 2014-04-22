@@ -150,6 +150,7 @@ window.TypeRacer.Views.Track = Backbone.View.extend({
 				if (data && data.racer_id) { return that.moveCar(data) }
 			});
 		}
+		TypeRacer.pusher.unsubscribe("game_lobby")
 	},
 
 	showModal: function() {

@@ -79,10 +79,6 @@ window.TypeRacer.Views.BoardNew = Backbone.View.extend({
 			that.countStart--;
 			$("#waiting").remove();
 			$("#count-down").html(that.countStart);
-			if (that.countStart <= 5) {
-				TypeRacer.pusher.channels.find("game_lobby") &&
-			  TypeRacer.pusher.unsubscribe("game_lobby")
-			}
 			if (that.countStart <= 0) {
 				clearInterval(that.gameCountDown);
 				that.setBoard();

@@ -42,7 +42,7 @@ window.TypeRacer.Views.NewHeat = Backbone.CompositeView.extend({
 			var subscription = type == "normal" ? "game_lobby" : type
 			var that = this;
 			this.channel = TypeRacer.pusher.subscribe(subscription);
-	    this.channel.bind('initiateCountDown', function(data) {
+	    	this.channel.bind('initiateCountDown', function(data) {
 				return that.initiateCountDown(data)
 			});
 			this.addTrackView(type);
